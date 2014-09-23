@@ -8,7 +8,6 @@ gem 'rails', '3.2.14'
 
 gem 'rails-api'
 
-gem 'sqlite3'
 
 
 
