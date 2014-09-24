@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
 
-  "name": "bestdeal-dev",
+  "name": "bestdeal-dev-with-external",
   "version": "1.0",
   "description": "Suggest a better hotel deal",
 
@@ -12,7 +12,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "css": ["main.css"],
+      "css": [],
       "js": ["jquery.min.js","main.js"]
     }
   ],

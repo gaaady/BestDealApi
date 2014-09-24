@@ -13,12 +13,11 @@ class HotelsController < ApplicationController
 
     respond_to do |format|
       format.html { render json: @hotels }
-      format.json { render json: @hotels }
-      # if params[:callback]
-      #   format.js { render :json => @hotels, :callback => params[:callback] }
-      # else
-      #   format.json { render json: @hotels }
-      # end
+      if params[:callback]
+        format.js { render :json => @hotels, :callback => params[:callback] }
+      else
+        format.json { render json: @hotels }
+      end
     end
   end
 
