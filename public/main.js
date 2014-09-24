@@ -61,7 +61,8 @@
 			    url: url,
 			    data: 
 			    {
-			        destination: destination
+			        destination: destination,
+			        callback: "bestdealCallback"
 			    },
 			    dataType: "jsonp"
 				});
