@@ -67,7 +67,7 @@
 	*/
 
 		function viewSrvc(api,destination) {
-			this.destination = destination,
+			this.destination = destination
 			//this.api = api
 		}
 
