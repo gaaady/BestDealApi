@@ -8,6 +8,8 @@ class HotelsController < ApplicationController
       @hotels = Hotel.find_all_by_city(params[:destination])
     end
 
+    @hotels = Hotel.all if @hotels.empty?
+
     render json: @hotels
   end
 
