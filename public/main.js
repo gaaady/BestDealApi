@@ -57,7 +57,7 @@
 	     //      return hotels;
 	     //    });
 				var url = this.url + '/hotels'
-				$.ajax({
+				return $.ajax({
 			    url: url,
 			    data: 
 			    {
