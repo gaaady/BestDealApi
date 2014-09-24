@@ -1,4 +1,5 @@
 class HotelsController < ApplicationController
+  include ActionController::MimeResponds
   # GET /hotels
   # GET /hotels.json
   def index
