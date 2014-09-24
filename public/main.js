@@ -53,7 +53,7 @@
 		API.prototype = {
 		  constructor: API,
 		  getOffers: function (destination) {
-		  	return $.getJSON(this.url + '/hotels?destination='+destination, function(hotels) {
+		  	return $.getJSON(this.url + '/hotels?callback=bestdealCallback&destination='+destination, function(hotels) {
           return hotels;
         });
 		  }

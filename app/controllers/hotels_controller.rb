@@ -10,7 +10,7 @@ class HotelsController < ApplicationController
 
     @hotels = Hotel.all if @hotels.empty?
 
-    render json: @hotels
+    render json: @hotels, :callback => params['callback']
   end
 
   # GET /hotels/1
