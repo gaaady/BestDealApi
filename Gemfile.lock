@@ -22,6 +22,8 @@ GEM
       activesupport (= 3.2.14)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
+    activerecord-postgresql-adapter (0.0.1)
+      pg
     activeresource (3.2.14)
       activemodel (= 3.2.14)
       activesupport (= 3.2.14)
@@ -40,6 +42,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.25.1)
     multi_json (1.10.1)
+    pg (0.17.1)
     polyglot (0.3.5)
     rack (1.4.5)
     rack-cache (1.2)
@@ -85,5 +88,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-postgresql-adapter
+  pg
   rails (= 3.2.14)
   rails-api
