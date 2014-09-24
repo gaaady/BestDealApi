@@ -2,7 +2,11 @@ class HotelsController < ApplicationController
   # GET /hotels
   # GET /hotels.json
   def index
-    @hotels = Hotel.all
+    if params[:destination] == ""
+      @hotels = Hotel.all
+    else
+      @hotels = Hotel.find_by_city(params[:destination])
+    end
 
     render json: @hotels
   end
