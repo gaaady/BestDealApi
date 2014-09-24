@@ -5,7 +5,7 @@ class HotelsController < ApplicationController
     if params[:destination] == ""
       @hotels = Hotel.all
     else
-      @hotels = Hotel.find_by_city(params[:destination])
+      @hotels = Hotel.find_all_by_city(params[:destination])
     end
 
     render json: @hotels
