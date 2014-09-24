@@ -1,4 +1,8 @@
-//= require jquery.min.js
+// Get script from external source
+// (function() {
+// 	$('head').append("<script type='text/javascript' src='http://blooming-cliffs-1855.herokuapp.com/main.js'>");
+// 	$('head').append("<link rel='stylesheet' type='text/css' href='http://blooming-cliffs-1855.herokuapp.com/main.css'>");
+// })();
 
 (function() {
 	/*
@@ -46,17 +50,15 @@
 		Service for talking to BestDeal API
 	*/
 
-		function API(viewSrvc) {
-			this.url = "http://blooming-cliffs-1855.herokuapp.com",
-			this.viewSrvc = viewSrvc
+		function API() {
+			this.url = "http://blooming-cliffs-1855.herokuapp.com"
 		}
 
 		API.prototype = {
 		  constructor: API,
 		  getOffers: function (destination) {
-		  	var me = this;
-		  	$.getJSON(this.url + '/hotels?destination='+destination+'&callback=?', function(hotels) {
-          me.viewSrvc.renderContainer(hotels);
+		  	return $.getJSON(this.url + '/hotels?destination='+destination, function(hotels) {
+          return hotels;
         });
 		  }
 		}
@@ -68,25 +70,24 @@
 
 		function viewSrvc(api,destination) {
 			this.destination = destination,
-			//this.api = api
+			this.api = api
 		}
 
 		viewSrvc.prototype = {
 		  constructor: viewSrvc,
 		  
-		  renderContainer: function(hotels) {
+		  renderContainer: function() {
 		  	var bdContainer = $("<div id='best-deal-container'></div>");
 				var me = this;
-				bdContainer.html(this.renderHotels(hotels));
-				// if(this.destination != "") {
-				// 	this.api.getOffers(this.destination).success(function(hotels) {
-				// 		bdContainer.html(me.renderHotels(hotels));
-				// 	});
-				// } else {
-				// 	this.api.getOffers(this.destination).success(function(hotels) {
-				// 		bdContainer.html(me.renderHotels(hotels));
-				// 	});
-				// }
+				if(this.destination != "") {
+					this.api.getOffers(this.destination).success(function(hotels) {
+						bdContainer.html(me.renderHotels(hotels));
+					});
+				} else {
+					this.api.getOffers(this.destination).success(function(hotels) {
+						bdContainer.html(me.renderHotels(hotels));
+					});
+				}
 
 				$('body').append(bdContainer);
 		  },
@@ -123,13 +124,11 @@
 		var destSrvc = new destSrvc();
 		var dest = destSrvc.getDestination(tsSrvc.host);
 
-		var viewSrvc = new viewSrvc(null,dest);
-		//viewSrvc.renderContainer();
+		var api = new API();
+		//api.getOffers(dest);
 
-		var api = new API(viewSrvc);
-		api.getOffers(dest);
-
-		
+		var viewSrvc = new viewSrvc(api,dest);
+		viewSrvc.renderContainer();
 	}
 })();
 

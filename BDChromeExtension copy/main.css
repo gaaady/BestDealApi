@@ -1,0 +1,40 @@
+#best-deal-container {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	/*height: 120px;*/
+	background: white;
+	border: 1px solid black;
+	padding: 10px;
+}
+
+.bd-offers-container {
+	width: 100%;
+	text-align: center;
+}
+
+.bd-offer {
+	display: inline-block;
+	vertical-align: top;
+	border: 1px solid gray;
+	height: 80px;
+	padding-left:5px;
+	padding-right: 5px;
+}
+
+.bd-offer-img-container, .bd-offer-details-container {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.bd-offer-img-container img {
+	height: 80px;
+	width: 100px;
+}
+
+.bd-offer-hotel-name {
+	font-weight: bold;
+}
+
+
+
