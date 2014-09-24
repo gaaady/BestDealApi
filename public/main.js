@@ -53,19 +53,9 @@
 		API.prototype = {
 		  constructor: API,
 		  getOffers: function (destination) {
-		  	// return $.getJSON(this.url + '/hotels?callback=bestdealCallback&destination='+destination, function(hotels) {
-	     //      return hotels;
-	     //    });
-				var url = this.url + '/hotels'
-				return $.ajax({
-			    url: url,
-			    data: 
-			    {
-			        destination: destination,
-			        callback: "bestdealCallback"
-			    },
-			    dataType: "jsonp"
-				});
+		  	return $.getJSON(this.url + '/hotels?callback=bestdealCallback&destination='+destination, function(hotels) {
+          return hotels;
+        });
 		  }
 		}
 
