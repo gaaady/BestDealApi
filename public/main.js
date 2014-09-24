@@ -56,8 +56,6 @@
 		  getOffers: function (destination) {
 		  	var me = this;
 		  	$.getJSON(this.url + '/hotels?destination='+destination+'&callback=?', function(hotels) {
-          console.log("Hey!!!");
-          console.log(JSON.parse(hotels));
           me.viewSrvc.renderContainer(hotels);
         });
 		  }
