@@ -60,6 +60,9 @@
 		  	return $.getJSON(this.url + '/hotels?destination='+destination, function(hotels) {
           return hotels;
         });
+		  },
+		  staticData: function() {
+		  	return JSON.parse('[{"hotel":{"city":"Tel Aviv","created_at":"2014-09-24T06:39:41Z","id":1,"image":"http://www.thefloridahotelorlando.com/var/floridahotelorlando/storage/images/media/images/photo-gallery/hotel-images/florida-hotel-driveway/26955-1-eng-US/Florida-Hotel-Driveway.jpg","name":"Grand Budapest","price":30,"updated_at":"2014-09-24T06:39:41Z"}},{"hotel":{"city":"London","created_at":"2014-09-24T06:39:41Z","id":2,"image":"http://www.college-hotel.com/client/cache/contenu/_500____college-hotelp1diapo1_718.jpg","name":"Ritz","price":60,"updated_at":"2014-09-24T06:39:41Z"}},{"hotel":{"city":"London","created_at":"2014-09-24T06:39:41Z","id":3,"image":"http://camgozler.com/wp-content/uploads/2014/05/hotel-03.jpg","name":"Holliday Inn","price":80,"updated_at":"2014-09-24T06:39:41Z"}},{"hotel":{"city":"Tel Aviv","created_at":"2014-09-24T06:39:41Z","id":4,"image":"http://camgozler.com/wp-content/uploads/2014/05/hotel-03.jpg","name":"Dan Panorama","price":40,"updated_at":"2014-09-24T06:39:41Z"}},{"hotel":{"city":"Tel Aviv","created_at":"2014-09-24T06:39:41Z","id":5,"image":"http://camgozler.com/wp-content/uploads/2014/05/hotel-03.jpg","name":"Leonardo","price":20,"updated_at":"2014-09-24T06:39:41Z"}}]');
 		  }
 		}
 
@@ -79,14 +82,23 @@
 		  renderContainer: function() {
 		  	var bdContainer = $("<div id='best-deal-container'></div>");
 				var me = this;
-				if(this.destination != "") {
+				// if(this.destination != "") {
+				// 	this.api.getOffers(this.destination).success(function(hotels) {
+				// 		bdContainer.html(me.renderHotels(hotels));
+				// 	});
+				// } else {
+				// 	this.api.getOffers(this.destination).success(function(hotels) {
+				// 		bdContainer.html(me.renderHotels(hotels));
+				// 	});
+				// }
+				try {
 					this.api.getOffers(this.destination).success(function(hotels) {
 						bdContainer.html(me.renderHotels(hotels));
 					});
-				} else {
-					this.api.getOffers(this.destination).success(function(hotels) {
-						bdContainer.html(me.renderHotels(hotels));
-					});
+				}
+				catch(err) {
+					var hotels = this.api.staticData();
+					bdContainer.html(me.renderHotels(hotels));
 				}
 
 				$('body').append(bdContainer);
