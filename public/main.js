@@ -57,7 +57,7 @@
 		  	var me = this;
 		  	$.getJSON(this.url + '/hotels?destination='+destination+'&callback=?', function(hotels) {
 		  		console.log(hotels);
-          //me.viewSrvc.renderContainer(hotels);
+          me.viewSrvc.renderContainer(hotels);
         });
 		  }
 		}
@@ -76,6 +76,7 @@
 		  constructor: viewSrvc,
 		  
 		  renderContainer: function(hotels) {
+		  	console.log("renderContainer");
 		  	var bdContainer = $("<div id='best-deal-container'></div>");
 				var me = this;
 				bdContainer.html(this.renderHotels(hotels));
