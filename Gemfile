@@ -8,7 +8,7 @@ gem 'activerecord-postgresql-adapter'
 
 
 gem 'rails-api'
-
+gem 'money-rails'
 gem 'pg'
 
 
