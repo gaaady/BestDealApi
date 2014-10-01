@@ -56,7 +56,8 @@
 		  getOffers: function (destination) {
 		  	var me = this;
 		  	$.getJSON(this.url + '/hotels?destination='+destination+'&callback=?', function(hotels) {
-          me.viewSrvc.renderContainer(hotels);
+		  		console.log(hotels);
+          //me.viewSrvc.renderContainer(hotels);
         });
 		  }
 		}
