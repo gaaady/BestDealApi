@@ -224,7 +224,7 @@ function main() {
 			*/
 
 				function API(viewSrvc) {
-					this.url = "http://localhost:3000";//"http://blooming-cliffs-1855.herokuapp.com",
+					this.url = "http://blooming-cliffs-1855.herokuapp.com",
 					this.viewSrvc = viewSrvc
 				}
 
