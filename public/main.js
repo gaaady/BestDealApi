@@ -123,7 +123,7 @@ function main() {
 			Booking.prototype = {
 				constructor: Booking,
 				getDestination: function() {
-					return $('#destination').value;
+					return $('#destination').val();
 				},
 
 				getDates: function () {
