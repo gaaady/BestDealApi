@@ -2,12 +2,12 @@
 
 Clone the project:
 
-'''
+```
 git clone git@github.com:uriklar/BestDealApi.git
-'''
+```
 
-To test the extension:
-======
+=== To test the extension:
+
 1. Open you chrome browser
 2. In the address line type: chrome://extensions/
 3. Make sure the checkbox titled "Developer Mode" is checked
@@ -18,35 +18,35 @@ Once you have done this you will be able to test the extension on these three pr
 Booking.com, Hotels.com and Trip Advisor
 
 
-To setup the dev environment:
-======
+=== To setup the dev environment:
+
 **Note**: these steps require you have Git and a working Rails environment setup.
 
 1. cd into directory created when cloning the app
-2.. run the following command to setup and populate the database:
-'''
+2. run the following command to setup and populate the database:
+```
 rake db:setup
-'''
+```
 3. start the server by running:
-'''
+```
 rails s
-'''
+```
 
 You will also need to change two lines in the code to develop locally:
 1. In app/public/main.js:
-'''javascript
+```javascript
 function API(viewSrvc) {
        // prod_url = https://blooming-cliffs-1855.herokuapp.com
        // dev_url = http://localhost:3000
        this.url = "https://blooming-cliffs-1855.herokuapp.com",
        this.viewSrvc = viewSrvc
 }
-'''
+```
 
 Change the line this.url to equal the dev_url
 
 2. In BDChromeExtensionExternal/main.js
-'''javascript
+```javascript
 // prod_url = https://blooming-cliffs-1855.herokuapp.com
 // dev_url = http://localhost:3000
 (function() {
@@ -54,7 +54,7 @@ Change the line this.url to equal the dev_url
 	$('head').append("<script type='text/javascript' src='"+url+"/main.js'>");
 	$('head').append("<link rel='stylesheet' type='text/css' href='"+url+"/main.css'>");
 })();
-'''
+```
 
 Change the line var url to equal the dev_url
 
