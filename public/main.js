@@ -5,7 +5,7 @@ var jQuery;
 if (window.jQuery === undefined) {
  var script_tag = document.createElement('script');
  script_tag.setAttribute("type","text/javascript");
- script_tag.setAttribute("src","http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js");
+ script_tag.setAttribute("src","https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js");
  if (script_tag.readyState) {
    script_tag.onreadystatechange = function () { // For old versions of IE
        if (this.readyState == 'complete' || this.readyState == 'loaded') {
@@ -224,7 +224,7 @@ function main() {
 			*/
 
 				function API(viewSrvc) {
-					this.url = "http://blooming-cliffs-1855.herokuapp.com",
+					this.url = "https://blooming-cliffs-1855.herokuapp.com",
 					this.viewSrvc = viewSrvc
 				}
 
