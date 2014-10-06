@@ -30,9 +30,242 @@ function scriptLoadHandler() {
 function main() {     
    jQuery(document).ready(function($) {
    	(function() {
+
+   		/*
+				trip-advisor.js
+				Class for data scraping of trip advisor
+				@trafficSources: Array of authorized traffic sources
+				@host: the current traffic source
+			*/
+
+			function TripAdvisor() {
+			}
+
+			TripAdvisor.prototype = {
+				constructor: TripAdvisor,
+				// Look for destination on trip advisor window variables
+				// If not available, try scraping the html
+				getDestination: function() {
+					var destination = window.geoName;
+					destination = destination || (function() {
+						try {
+							return window.ta.retrieve('mapsv2.geoName');
+						} 
+						catch(e) {
+							console.log("BestDeal error" + e.message);
+							return null;
+						}
+					})();
+					// TODO: scrape the html if no destination found
+					return destination;
+				},
+
+				getDates: function () {
+			  	var dates = {};
+			  	dates.checkin = (function(){
+			  		try {
+			  			return window.ta.retrieve("multiDP.inDate");	
+			  		}
+			  		catch(e) {
+			  			console.log("BestDeal error" + e.message);
+			  			return null;
+			  		}
+			  	})();
+			  	dates.checkout = (function(){
+			  		try {
+			  			return window.ta.retrieve("multiDP.outDate");	
+			  		}
+			  		catch(e) {
+			  			console.log("BestDeal error" + e.message);
+			  			return null;
+			  		}
+			  	})();
+			  	// TODO: scrape the html if no dates found
+				  return dates;
+				},
+
+				getPrice: function () {
+					var price = {};
+			  	price.currency = this.getCurrency();
+
+			  	try {
+				  	var pricesArr = $('.priceBlock .price'); // get the divs containing the price
+				  	var sum = 0;
+
+						$.each(pricesArr,function () {
+							var pString = $(this).html();
+							var price = parseInt(pString.replace(/\D/g,'')); // remove non number chars from price string
+							sum +=  price;
+						});
+
+						price.average = parseInt(sum / pricesArr.length);	
+			  	} catch(e) {
+			  		console.log("BestDeal error" + e.message);
+			  		price.average = null;
+			  	}
+
+			  	return price; 
+				},
+
+				getCurrency: function () {
+					var currString = $('#CURRENCYPOP .link').html();
+					if(currString) {
+						return currString.substring(0,currString.indexOf("<"));
+					} else {
+						return "";
+					}
+				}
+			};
+
+			function Booking() {
+			}
+
+			Booking.prototype = {
+				constructor: Booking,
+				getDestination: function() {
+					return $('#destination').value;
+				},
+
+				getDates: function () {
+			  	var dates = {};
+			  	dates.checkout = (function () {
+			  		try {
+			  			return window.booking.env.b_checkin_date;
+			  		} catch(e) {
+			  			console.log("BestDeal error" + e.message);
+			  			return null;
+			  		}
+			  	})();
+			  	
+				  dates.checkout = (function () {
+			  		try {
+			  			return window.booking.env.b_checkout_date;
+			  		} catch(e) {
+			  			console.log("BestDeal error" + e.message);
+			  			return null;
+			  		}
+			  	})();
+
+				  return dates;
+				},
+
+				getPrice: function () {
+					var price = {};
+			  	price.currency = this.getCurrency();
+			  	try {
+				  	var pricesArr = this.getRoomPricesArray();
+				  	var sum = 0;
+
+						$.each(pricesArr,function () {
+							var pString = $(this).html();
+							var price = parseInt(pString.replace(/\D/g,''));
+							sum +=  price;
+						});
+
+				  	price.average = parseInt(sum / pricesArr.length);
+			  	} catch(e) {
+			  		console.log("BestDeal error" + e.message);
+			  		price.average = null;
+			  	}
+			  	return price;
+				},
+
+				getCurrency: function () {
+					try {
+						return window.booking.env.b_selected_currency;
+					} catch(e) {
+						console.log("BestDeal error" + e.message);
+						return null;
+					}
+				},
+
+				getRoomPricesArray: function () {
+					return $('.roomPrice .price b').length > 0 ? $('.roomPrice .price b') : $('.rooms-table-room-price');
+				}
+			}
+
+			function Hotels() {
+			}
+
+			Hotels.prototype = {
+				constructor: Hotels,
+				getDestination: function() {
+					try {
+						if($('#destination').length > 0){
+				  		return $('#destination').val().split(',')[0];
+				  	} else if ($('#q-destination').length > 0) {
+				  		return $('#q-destination').val().split(',')[0];
+				  	} else if ($('.adr .locality').length > 0) {
+				  		return $('.adr .locality').html().split(',')[0];
+				  	} else {
+				  		return "";
+				  	}
+					} catch(e) {
+						console.log("BestDeal error" + e.message);
+						return "";
+					}
+				},
+
+				getDates: function () {
+			  	var dates = {};
+			  	dates.checkin = (function () {
+			  		try {
+			  			return window.commonDataBlock.search.checkinDate;
+			  		} catch(e) {
+			  			console.log("BestDeal error" + e.message);
+			  			return null;
+			  		}
+			  	})();
+			  	dates.checkout = (function () {
+			  		try {
+			  			return window.commonDataBlock.search.checkoutDate;
+			  		} catch(e) {
+			  			console.log("BestDeal error" + e.message);
+			  			return null;
+			  		}
+			  	})();
+			  	return dates; 
+				},
+
+				getPrice: function () {
+					var price = {};
+			  	price.currency = this.getCurrency();
+
+			  	try {
+				  	var pricesArr = $('.price ins');
+				  	var sum = 0;
+
+						$.each(pricesArr,function () {
+							var pString = $(this).html();
+							var price = parseInt(pString.replace(/\D/g,''));
+
+							sum +=  price;
+						});
+
+						if(pricesArr.length > 0) {
+							price.average = parseInt(sum / pricesArr.length);	
+						} else {
+							price.average = parseInt($('.feature-price .current-price').html().replace(/\D/g,''));
+						}
+			  	} catch(e) {
+			  		console.log("BestDeal error" + e.message);
+			  		price.average = null;
+			  	}
+
+			  	return price; 
+				},
+
+				getCurrency: function () {
+					return window.commonDataBlock.page.currency;
+				}
+			}
+
+
 			/*
 				ts-service.js
 				Service for identifing if the current website is a traffic source
+				@trafficSources: Array of authorized traffic sources
+				@host: the current traffic source
 			*/
 
 				function tsSrvc() {
@@ -49,172 +282,16 @@ function main() {
 						} else {
 							return false;
 						}
-				  }
-				}
-
-
-			/*
-				destination-service.js
-				Service for indentifying the destination in different Traffic Sources
-			*/
-
-				function destSrvc() {
-				}
-
-				destSrvc.prototype = {
-				  constructor: destSrvc,
-				  wwwbookingcomDestination: function () {
-				  	return document.getElementById('destination').value;
 				  },
 
-				  wwwhotelscomDestination: function () {
-				  	if($('#destination').length > 0){
-				  		return $('#destination').val().split(',')[0];
-				  	} else if ($('#q-destination').length > 0) {
-				  		return $('#q-destination').val().split(',')[0];
-				  	} else if ($('.adr .locality').length > 0) {
-				  		return $('.adr .locality').html().split(',')[0];
-				  	} else {
-				  		return null;
+				  trafficSourceClass: function () {
+				  	if(this.host.indexOf(this.trafficSources[0]) > -1) {
+				  		return new Booking();
+				  	} else if (this.host.indexOf(this.trafficSources[1]) > -1) {
+				  		return new Hotels();
+				  	} else if (this.host.indexOf(this.trafficSources[2]) > -1) { 
+				  		return new TripAdvisor();
 				  	}
-				  },
-
-				  wwwtripadvisorcomDestination: function () {
-				  	return window.geoName || window.ta.retrieve('mapsv2.geoName');
-				  },
-
-				  getDestination: function (host) {
-						try {
-							return eval("this."+host.replace(/\./g,'')+"Destination()");	
-						}
-						catch(err) {
-							console.log(err.message);
-							return "";
-						}
-				  }
-				}
-
-			/*
-				dates-service.js
-				Service for indentifying the dates in different Traffic Sources
-			*/
-
-				function datesSrvc() {
-				}
-
-				datesSrvc.prototype = {
-				  constructor: datesSrvc,
-				  wwwbookingcomDates: function () {
-				  	var dates = {};
-				  	dates.checkout = window.booking.env.b_checkout_date;
-				  	return dates;
-				  },
-
-				  wwwhotelscomDates: function () {
-				  	var dates = {};
-				  	dates.checkin = window.commonDataBlock.search.checkinDate;
-				  	dates.checkout = window.commonDataBlock.search.checkoutDate;
-				  	return dates;  
-				  },
-
-				  wwwtripadvisorcomDates: function () {
-				  	var dates = {};
-				  	dates.checkin = ta.retrieve("multiDP.inDate");
-				  	dates.checkout = ta.retrieve("multiDP.outDate");
-				  	return dates;
-				  },
-
-				  getDates: function (host) {
-						try {
-							return eval("this."+host.replace(/\./g,'')+"Dates()");	
-						}
-						catch(err) {
-							console.log(err.message);
-							return {};
-						}
-				  }
-				}
-
-			/*
-				price-service.js
-				Service for indentifying the price in different Traffic Sources
-				TODO: calculate price per night
-			*/
-
-				function priceSrvc() {
-				}
-
-				priceSrvc.prototype = {
-				  constructor: priceSrvc,
-				  wwwbookingcomPrice: function () {
-				  	var price = {};
-				  	price.currency = window.booking.env.b_selected_currency;
-
-				  	var pricesArr = $('.roomPrice .price b').length > 0 ? $('.roomPrice .price b') : $('.rooms-table-room-price');
-				  	var sum = 0;
-
-						$.each(pricesArr,function () {
-							var pString = $(this).html();
-							var price = parseInt(pString.replace(/\D/g,''));
-
-							sum +=  price;
-						});
-
-				  	price.average = parseInt(sum / pricesArr.length);
-				  	return price;
-				  },
-
-				  wwwhotelscomPrice: function () {
-				  	var price = {};
-				  	price.currency = window.commonDataBlock.page.currency;
-
-				  	var pricesArr = $('.price ins');
-				  	var sum = 0;
-
-						$.each(pricesArr,function () {
-							var pString = $(this).html();
-							var price = parseInt(pString.replace(/\D/g,''));
-
-							sum +=  price;
-						});
-
-						if(pricesArr.length > 0) {
-							price.average = parseInt(sum / pricesArr.length);	
-						} else {
-							price.average = parseInt($('.feature-price .current-price').html().replace(/\D/g,''));
-						}
-				  	
-
-				  	return price; 
-				  },
-
-				  wwwtripadvisorcomPrice: function () {
-				  	var price = {};
-				  	var currString = $('#CURRENCYPOP .link').html();
-				  	price.currency = currString.substring(0,currString.indexOf("<"))
-
-				  	var pricesArr = $('.priceBlock .price');
-				  	var sum = 0;
-
-						$.each(pricesArr,function () {
-							var pString = $(this).html();
-							var price = parseInt(pString.replace(/\D/g,''));
-
-							sum +=  price;
-						});
-
-						price.average = parseInt(sum / pricesArr.length);	
-				  	return price; 
-				  },
-
-				  getPrice: function (host) {
-						try {
-							return eval("this."+host.replace(/\./g,'')+"Price()");	
-						}
-						catch(err) {
-							console.log(err);
-							return {};
-						}
 				  }
 				}
 
@@ -231,10 +308,14 @@ function main() {
 				API.prototype = {
 				  constructor: API,
 				  getOffers: function (destination) {
-				  	var me = this;
-				  	$.getJSON(this.url + '/hotels?destination='+destination+'&callback=?', function(hotels) {
-		          me.viewSrvc.renderContainer(hotels);
-		        });
+				  	try {
+					  	var me = this;
+					  	$.getJSON(this.url + '/hotels?destination='+destination+'&callback=?', function(hotels) {
+			          me.viewSrvc.renderContainer(hotels);
+			        });
+					  } catch(e) {
+					  	console.log("BestDeal Server Error: "+e.message);
+					  }
 				  }
 				}
 
@@ -296,24 +377,22 @@ function main() {
 				}
 
 			var tsSrvc = new tsSrvc();
-			if(tsSrvc.isTrafficSource(window.location.host)){
-				var data = {};
-				data.ts = window.location.host;
+			try {
+				if(tsSrvc.isTrafficSource(window.location.host)){
+					var data = {};
+					data.ts = window.location.host;
+					var tsClass = tsSrvc.trafficSourceClass();
 
-				var destSrvc = new destSrvc();
-				data.destination = destSrvc.getDestination(tsSrvc.host);
+					data.destination = tsClass.getDestination();
+					data.dates = tsClass.getDates();
+					data.price = tsClass.getPrice();
 
-				var datesSrvc = new datesSrvc();
-				data.dates = datesSrvc.getDates(tsSrvc.host);
-
-				var priceSrvc = new priceSrvc();
-				data.price = priceSrvc.getPrice(tsSrvc.host);
-
-				var viewSrvc = new viewSrvc(null,data);
-				//viewSrvc.renderContainer();
-
-				var api = new API(viewSrvc);
-				api.getOffers(data.destination);
+					var viewSrvc = new viewSrvc(null,data);
+					var api = new API(viewSrvc);
+					api.getOffers(data.destination);
+				}
+			} catch(e) {
+				console.log("BestDeal Error"+ e.message);
 			}
 		})();
 	});
