@@ -1,5 +1,4 @@
 ## Best Deal 
-======
 
 Clone the project:
 
