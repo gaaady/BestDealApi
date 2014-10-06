@@ -61,6 +61,7 @@ Change the line this.url to equal the dev_url
 Change the line var url to equal the dev_url
 
 **Note**: After making changes to BDChromeExtensionExternal/main.js you will need to:
+
 1. go to chrome://extensions/
 2. find the extension "bestdeal-dev-with-external"
 3. click "Reload"
