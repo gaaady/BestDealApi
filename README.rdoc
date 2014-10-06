@@ -1,7 +1,7 @@
-# Best Deal 
-======
+== Best Deal 
 
 Clone the project:
+
 '''
 git clone git@github.com:uriklar/BestDealApi.git
 '''
