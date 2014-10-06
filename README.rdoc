@@ -2,7 +2,7 @@
 
 Clone the project:
 
-```git clone git@github.com:uriklar/BestDealApi.git```
+git clone git@github.com:uriklar/BestDealApi.git
 
 === To test the extension:
 
@@ -22,29 +22,29 @@ Booking.com, Hotels.com and Trip Advisor
 
 1. cd into directory created when cloning the app
 2. run the following command to setup and populate the database:
-```
+
 rake db:setup
-```
+
 3. start the server by running:
-```
+
 rails s
-```
+
 
 You will also need to change two lines in the code to develop locally:
 1. In app/public/main.js:
-```javascript
+
 function API(viewSrvc) {
        // prod_url = https://blooming-cliffs-1855.herokuapp.com
        // dev_url = http://localhost:3000
        this.url = "https://blooming-cliffs-1855.herokuapp.com",
        this.viewSrvc = viewSrvc
 }
-```
+
 
 Change the line this.url to equal the dev_url
 
 2. In BDChromeExtensionExternal/main.js
-```javascript
+
 // prod_url = https://blooming-cliffs-1855.herokuapp.com
 // dev_url = http://localhost:3000
 (function() {
@@ -52,7 +52,7 @@ Change the line this.url to equal the dev_url
 	$('head').append("<script type='text/javascript' src='"+url+"/main.js'>");
 	$('head').append("<link rel='stylesheet' type='text/css' href='"+url+"/main.css'>");
 })();
-```
+
 
 Change the line var url to equal the dev_url
 
