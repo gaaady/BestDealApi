@@ -1,9 +1,3 @@
-// Get script from external source
-// (function() {
-// 	$('head').append("<script type='text/javascript' src='http://blooming-cliffs-1855.herokuapp.com/main.js'>");
-// 	$('head').append("<link rel='stylesheet' type='text/css' href='http://blooming-cliffs-1855.herokuapp.com/main.css'>");
-// })();
-
 (function() {
 	/*
 		ts-service.js
@@ -51,7 +45,7 @@
 	*/
 
 		function API() {
-			this.url = "http://blooming-cliffs-1855.herokuapp.com"
+			this.url = "https://blooming-cliffs-1855.herokuapp.com"
 		}
 
 		API.prototype = {

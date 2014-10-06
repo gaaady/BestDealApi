@@ -19,6 +19,6 @@
   
   "permissions": [
   "tabs",
-  "http://blooming-cliffs-1855.herokuapp.com/*"
+  "https://blooming-cliffs-1855.herokuapp.com/*"
   ]
 }
