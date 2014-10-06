@@ -1,10 +1,14 @@
-== Best Deal 
+## Best Deal 
+======
 
 Clone the project:
 
+'''
 git clone git@github.com:uriklar/BestDealApi.git
+'''
 
-=== To test the extension:
+#### To test the extension
+======
 
 1. Open you chrome browser
 2. In the address line type: chrome://extensions/
@@ -16,24 +20,25 @@ Once you have done this you will be able to test the extension on these three pr
 Booking.com, Hotels.com and Trip Advisor
 
 
-=== To setup the dev environment:
+### To setup the dev environment
+======
 
 **Note**: these steps require you have Git and a working Rails environment setup.
 
 1. cd into directory created when cloning the app
 2. run the following command to setup and populate the database:
 
-rake db:setup
+```rake db:setup```
 
 3. start the server by running:
 
-rails s
+```rails s```
 
 
 You will also need to change two lines in the code to develop locally:
 1. In app/public/main.js:
 
-```
+```javascript
 function API(viewSrvc) {
 	// prod_url = https://blooming-cliffs-1855.herokuapp.com
 	// dev_url = http://localhost:3000
@@ -46,7 +51,7 @@ function API(viewSrvc) {
 Change the line this.url to equal the dev_url
 
 2. In BDChromeExtensionExternal/main.js
-```
+```javascript
 // prod_url = https://blooming-cliffs-1855.herokuapp.com
 // dev_url = http://localhost:3000
 (function() {
