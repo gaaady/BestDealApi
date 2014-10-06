@@ -301,6 +301,8 @@ function main() {
 			*/
 
 				function API(viewSrvc) {
+					// prod_url = https://blooming-cliffs-1855.herokuapp.com
+					// dev_url = http://localhost:3000
 					this.url = "https://blooming-cliffs-1855.herokuapp.com",
 					this.viewSrvc = viewSrvc
 				}
