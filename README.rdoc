@@ -2,9 +2,7 @@
 
 Clone the project:
 
-```
-git clone git@github.com:uriklar/BestDealApi.git
-```
+```git clone git@github.com:uriklar/BestDealApi.git```
 
 === To test the extension:
 
