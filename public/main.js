@@ -128,7 +128,7 @@ function main() {
 
 				getDates: function () {
 			  	var dates = {};
-			  	dates.checkout = (function () {
+			  	dates.checkin = (function () {
 			  		try {
 			  			return window.booking.env.b_checkin_date;
 			  		} catch(e) {
@@ -145,7 +145,6 @@ function main() {
 			  			return null;
 			  		}
 			  	})();
-
 				  return dates;
 				},
 
@@ -154,6 +153,7 @@ function main() {
 			  	price.currency = this.getCurrency();
 			  	try {
 				  	var pricesArr = this.getRoomPricesArray();
+				  	var duration = this.getDuration();
 				  	var sum = 0;
 
 						$.each(pricesArr,function () {
@@ -161,8 +161,7 @@ function main() {
 							var price = parseInt(pString.replace(/\D/g,''));
 							sum +=  price;
 						});
-
-				  	price.average = parseInt(sum / pricesArr.length);
+				  	price.average = parseInt(sum / pricesArr.length) / duration;
 			  	} catch(e) {
 			  		console.log("BestDeal error" + e.message);
 			  		price.average = null;
@@ -180,7 +179,30 @@ function main() {
 				},
 
 				getRoomPricesArray: function () {
-					return $('.roomPrice .price b').length > 0 ? $('.roomPrice .price b') : $('.rooms-table-room-price');
+					var arr = $('.roomPrice .price');
+					if(arr.length > 0) {
+						return arr;
+					} 
+					arr = $('.rooms-table-room-price'); 
+					if(arr.length > 0) {
+						return arr;
+					} 
+
+					arr = $('.fromprice a.test2'); 
+					if(arr.length > 0) {
+						return arr;
+					} 
+					return [];
+				},
+
+				getDuration: function () {
+					try {
+						var dates = this.getDates();
+						return Math.floor(( Date.parse(dates.checkout) - Date.parse(dates.checkin) ) / 86400000);
+					} catch(e) {
+						console.log("BestDeal error" + e.message);
+						return null;
+					}
 				}
 			}
 
@@ -233,6 +255,7 @@ function main() {
 
 			  	try {
 				  	var pricesArr = $('.price ins');
+				  	var duration = this.getDuration();
 				  	var sum = 0;
 
 						$.each(pricesArr,function () {
@@ -243,9 +266,9 @@ function main() {
 						});
 
 						if(pricesArr.length > 0) {
-							price.average = parseInt(sum / pricesArr.length);	
+							price.average = parseInt(sum / pricesArr.length) / duration;	
 						} else {
-							price.average = parseInt($('.feature-price .current-price').html().replace(/\D/g,''));
+							price.average = parseInt($('.feature-price .current-price').html().replace(/\D/g,'')) / duration;
 						}
 			  	} catch(e) {
 			  		console.log("BestDeal error" + e.message);
@@ -257,6 +280,16 @@ function main() {
 
 				getCurrency: function () {
 					return window.commonDataBlock.page.currency;
+				},
+
+				getDuration: function () {
+					try {
+						var dates = this.getDates();
+						return Math.floor(( Date.parse(dates.checkout) - Date.parse(dates.checkin) ) / 86400000);
+					} catch(e) {
+						console.log("BestDeal error" + e.message);
+						return null;
+					}
 				}
 			}
 
