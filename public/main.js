@@ -33,6 +33,66 @@ function main() {
 
 
         /*
+         Orbitz.js
+         Class for data scraping of Orbitz
+         @trafficSources: Array of authorized traffic sources
+         @host: the current traffic source
+         */
+
+        function Orbitz() {
+        }
+
+
+        Orbitz.prototype = {
+            constructor: Orbitz,
+
+            getDestination: function() {
+
+                var destination = $("#cityName").val();
+                return destination;
+            },
+
+            getDates: function () {
+                var dates = {};
+                dates.checkin = $("#checkInDate").val();
+                dates.checkout = $("#checkOutDate").val();
+                return dates;
+            },
+
+            getPrice: function () {
+                var price = {};
+                price.currency = this.getCurrency();
+
+                try {
+                    var pricesArr = $(".listitem_price_amount"); // get the divs containing the price
+                    var sum = 0;
+
+                    $.each(pricesArr,function () {
+                        var pString = $(this).html();
+                        var price = parseInt(pString.replace(/\D/g,'')); // remove non number chars from price string
+                        sum +=  price;
+                    });
+
+                    price.average = parseInt(sum / pricesArr.length);
+                } catch(e) {
+                    console.log("BestDeal error" + e.message);
+                    price.average = null;
+                }
+
+                return price;
+            },
+
+            getCurrency: function () {
+                return $(".listitem_price_currency").first().text().substring($(".listitem_price_currency").first().text().length - 1);
+            }
+        };
+
+
+
+
+
+
+        /*
          price-line.js
          Class for data scraping of Price Line
          @trafficSources: Array of authorized traffic sources
@@ -366,7 +426,7 @@ function main() {
 			*/
 
 				function tsSrvc() {
-					this.trafficSources = ["booking.com","hotels.com","tripadvisor.com", "priceline.com"],
+					this.trafficSources = ["booking.com","hotels.com","tripadvisor.com", "priceline.com", "orbitz.com"],
 					this.host = null
 				}
 
@@ -390,6 +450,8 @@ function main() {
 				  		return new TripAdvisor();
 				  	} else if (this.host.indexOf(this.trafficSources[3]) > -1) {
                         return new PriceLine();
+                    } else if (this.host.indexOf(this.trafficSources[4]) > -1) {
+                        return new Orbitz();
                     }
 				  }
 				}
