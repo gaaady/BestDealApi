@@ -42,12 +42,65 @@ function main() {
         function PriceLine() {
         }
 
-   		/*
-				trip-advisor.js
-				Class for data scraping of trip advisor
-				@trafficSources: Array of authorized traffic sources
-				@host: the current traffic source
-			*/
+
+        PriceLine.prototype = {
+            constructor: PriceLine,
+
+            // There are no variables inside the url so I have to get all the information from the HTML
+
+            getDestination: function() {
+
+                var destination = $("#cityName").val();
+                return destination;
+            },
+
+            getDates: function () {
+                var dates = {};
+                dates.checkin = $("#checkInDate").val();
+                dates.checkout = $("#checkOutDate").val();
+                return dates;
+            },
+
+            getPrice: function () {
+                var price = {};
+                price.currency = this.getCurrency();
+
+                try {
+                    var pricesArr = $(".listitem_price_amount"); // get the divs containing the price
+                    var sum = 0;
+
+                    $.each(pricesArr,function () {
+                        var pString = $(this).html();
+                        var price = parseInt(pString.replace(/\D/g,'')); // remove non number chars from price string
+                        sum +=  price;
+                    });
+
+                    price.average = parseInt(sum / pricesArr.length);
+                } catch(e) {
+                    console.log("BestDeal error" + e.message);
+                    price.average = null;
+                }
+
+                return price;
+            },
+
+            getCurrency: function () {
+               return $(".listitem_price_currency").first().text().substring($(".listitem_price_currency").first().text().length - 1);
+            }
+        };
+
+
+
+
+
+
+
+        /*
+             trip-advisor.js
+             Class for data scraping of trip advisor
+             @trafficSources: Array of authorized traffic sources
+             @host: the current traffic source
+         */
 
 			function TripAdvisor() {
 			}
