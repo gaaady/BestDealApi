@@ -66,12 +66,20 @@ function main() {
                 try {
                     var pricesArr = jQuery(".leadPrice"); // get the divs containing the price
                     var sum = 0;
-
+                    var minimalPrice = 10000000; // Instead of using this giant price I could took the first price from the list
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
                         var price = parseInt(pString.replace(/\D/g,'')); // remove non number chars from price string
+
                         sum +=  price;
+                        if (minimalPrice > price)
+                        {
+                            minimalPrice = price;
+                        }
+
                     });
+
+                    price.minimal = minimalPrice;
 
                     price.average = parseInt(sum / pricesArr.length);
                 } catch(e) {
@@ -121,6 +129,7 @@ function main() {
                 return dates;
             },
 
+            // Return the minimal price
             getPrice: function () {
                 var price = {};
                 price.currency = this.getCurrency();
@@ -128,12 +137,19 @@ function main() {
                 try {
                     var pricesArr = $(".listitem_price_amount"); // get the divs containing the price
                     var sum = 0;
+                    var minimalPrice = 10000000; // Instead of using this giant price I could took the first price from the list
 
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
                         var price = parseInt(pString.replace(/\D/g,'')); // remove non number chars from price string
                         sum +=  price;
+                        if (minimalPrice > price)
+                        {
+                            minimalPrice = price;
+                        }
                     });
+
+                    price.minimal = minimalPrice;
 
                     price.average = parseInt(sum / pricesArr.length);
                 } catch(e) {
@@ -208,6 +224,7 @@ function main() {
 				  return dates;
 				},
 
+                // Return the minimal price
 				getPrice: function () {
 					var price = {};
 			  	price.currency = this.getCurrency();
@@ -215,14 +232,20 @@ function main() {
 			  	try {
 				  	var pricesArr = $('.priceBlock .price'); // get the divs containing the price
 				  	var sum = 0;
+                    var minimalPrice = 10000000; // Instead of using this giant price I could took the first price from the list
+                    $.each(pricesArr,function () {
+                        var pString = $(this).html();
+                        var price = parseInt(pString.replace(/\D/g,'')); // remove non number chars from price string
+                        sum +=  price;
+                        if (minimalPrice > price)
+                        {
+                            minimalPrice = price;
+                        }
+                    });
 
-						$.each(pricesArr,function () {
-							var pString = $(this).html();
-							var price = parseInt(pString.replace(/\D/g,'')); // remove non number chars from price string
-							sum +=  price;
-						});
+                    price.average = parseInt(sum / pricesArr.length);
+                    price.minimal = minimalPrice;
 
-						price.average = parseInt(sum / pricesArr.length);	
 			  	} catch(e) {
 			  		console.log("BestDeal error" + e.message);
 			  		price.average = null;
@@ -272,6 +295,7 @@ function main() {
 				  return dates;
 				},
 
+                // Return the minimal price
 				getPrice: function () {
 					var price = {};
 			  	price.currency = this.getCurrency();
@@ -279,12 +303,18 @@ function main() {
 				  	var pricesArr = this.getRoomPricesArray();
 				  	var duration = this.getDuration();
 				  	var sum = 0;
+                    var minimalPrice = 10000000; // Instead of using this giant price I could took the first price from the list
 
-						$.each(pricesArr,function () {
-							var pString = $(this).html();
-							var price = parseInt(pString.replace(/\D/g,''));
-							sum +=  price;
-						});
+                    $.each(pricesArr,function () {
+                        var pString = $(this).html();
+                        var price = parseInt(pString.replace(/\D/g,''));
+                        sum +=  price;
+                        if (minimalPrice > price)
+                        {
+                            minimalPrice = price;
+                        }
+                    });
+                    price.minimal = minimalPrice;
 				  	price.average = parseInt(sum / pricesArr.length) / duration;
 			  	} catch(e) {
 			  		console.log("BestDeal error" + e.message);
@@ -373,6 +403,7 @@ function main() {
 			  	return dates; 
 				},
 
+                // Return the minimal price
 				getPrice: function () {
 					var price = {};
 			  	price.currency = this.getCurrency();
@@ -381,19 +412,26 @@ function main() {
 				  	var pricesArr = $('.price ins');
 				  	var duration = this.getDuration();
 				  	var sum = 0;
+                    var minimalPrice = 10000000; // Instead of using this giant price I could took the first price from the list
 
-						$.each(pricesArr,function () {
-							var pString = $(this).html();
-							var price = parseInt(pString.replace(/\D/g,''));
+                    $.each(pricesArr,function () {
+                        var pString = $(this).html();
+                        var price = parseInt(pString.replace(/\D/g,''));
 
-							sum +=  price;
-						});
+                        sum +=  price;
+                        if (minimalPrice > price)
+                        {
+                            minimalPrice = price;
+                        }
+                    });
 
-						if(pricesArr.length > 0) {
-							price.average = parseInt(sum / pricesArr.length) / duration;	
-						} else {
-							price.average = parseInt($('.feature-price .current-price').html().replace(/\D/g,'')) / duration;
-						}
+                    if(pricesArr.length > 0) {
+                        price.minimal = minimalPrice;
+                        price.average = parseInt(sum / pricesArr.length) / duration;
+                    } else {
+                        price.average = parseInt($('.feature-price .current-price').html().replace(/\D/g,'')) / duration;
+                        price.minimal = parseInt($('.feature-price .current-price').html().replace(/\D/g,'')) / duration;  // Look to be the same because there is only one price
+                    }
 			  	} catch(e) {
 			  		console.log("BestDeal error" + e.message);
 			  		price.average = null;
@@ -537,13 +575,14 @@ function main() {
 				  	debugContainer.append("<div>Destination: "+this.data.destination+"</div>");
 				  	debugContainer.append("<div>Dates: "+this.data.dates.checkin+"-"+this.data.dates.checkout+"</div>");
 				  	debugContainer.append("<div>Average Price: "+this.data.price.currency+" "+ this.data.price.average +"</div>");
+				  	debugContainer.append("<div>Minimal Price: "+this.data.price.currency+" "+ this.data.price.minimal +"</div>");
 				  	return debugContainer;
 				  }
 				}
 
 			var tsSrvc = new tsSrvc();
 			try {
-				if(tsSrvc.isTrafficSource(window.location.host) && (document.URL.indexOf("search") > -1)){
+				if(tsSrvc.isTrafficSource(window.location.host)){
 					var data = {};
 					data.ts = window.location.host;
 					var tsClass = tsSrvc.trafficSourceClass();
