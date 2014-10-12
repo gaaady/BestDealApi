@@ -48,14 +48,14 @@ function main() {
 
             getDestination: function() {
 
-                var destination = $("#cityName").val();
+                var destination = jQuery("input[name='hotel.keyword.key']").val();
                 return destination;
             },
 
             getDates: function () {
                 var dates = {};
-                dates.checkin = $("#checkInDate").val();
-                dates.checkout = $("#checkOutDate").val();
+                dates.checkin = jQuery("input[name='hotel.chkin']").val();
+                dates.checkout = jQuery("input[name='hotel.chkout']").val();
                 return dates;
             },
 
@@ -64,7 +64,7 @@ function main() {
                 price.currency = this.getCurrency();
 
                 try {
-                    var pricesArr = $(".listitem_price_amount"); // get the divs containing the price
+                    var pricesArr = jQuery(".leadPrice"); // get the divs containing the price
                     var sum = 0;
 
                     $.each(pricesArr,function () {
@@ -83,7 +83,7 @@ function main() {
             },
 
             getCurrency: function () {
-                return $(".listitem_price_currency").first().text().substring($(".listitem_price_currency").first().text().length - 1);
+                return jQuery(".leadPrice").first().text().trim().substring(0,1);
             }
         };
 
