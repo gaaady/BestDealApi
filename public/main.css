@@ -9,6 +9,22 @@
 	z-index: 999;
 }
 
+#best-deal-brand{
+    height: 40px;
+    border: 1px solid rgb(103, 103, 103);
+    width: 150px;
+    float: right;
+    margin-top: -52px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    font-size: 18px;
+    text-align: center;
+    color: rgb(34, 151, 211);
+    line-height: 45px;
+    background: white;
+    z-index: 999;
+}
+
 .bd-offers-container {
 	width: 100%;
 	text-align: center;

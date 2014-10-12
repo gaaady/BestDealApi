@@ -497,10 +497,12 @@ function main() {
 				  
 				  renderContainer: function(hotels) {
 				  	var bdContainer = $("<div id='best-deal-container'></div>");
-						var me = this;
-						bdContainer.html(this.renderHotels(hotels));
-						bdContainer.append(this.renderDebugMode());
-						$('body').append(bdContainer);
+                    var bdBrand = $("<div id='best-deal-brand'>Best Deals</div>");
+                    var me = this;
+                    bdContainer.html(bdBrand);
+                    bdContainer.append(this.renderHotels(hotels));
+                    bdContainer.append(this.renderDebugMode());
+                    $('body').append(bdContainer);
 				  },
 
 				  renderHotels: function(hotels) {
