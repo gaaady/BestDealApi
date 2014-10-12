@@ -31,6 +31,17 @@ function main() {
    jQuery(document).ready(function($) {
    	(function() {
 
+
+        /*
+         price-line.js
+         Class for data scraping of Price Line
+         @trafficSources: Array of authorized traffic sources
+         @host: the current traffic source
+         */
+
+        function PriceLine() {
+        }
+
    		/*
 				trip-advisor.js
 				Class for data scraping of trip advisor
@@ -302,7 +313,7 @@ function main() {
 			*/
 
 				function tsSrvc() {
-					this.trafficSources = ["booking.com","hotels.com","tripadvisor.com"],
+					this.trafficSources = ["booking.com","hotels.com","tripadvisor.com", "priceline.com"],
 					this.host = null
 				}
 
@@ -324,7 +335,9 @@ function main() {
 				  		return new Hotels();
 				  	} else if (this.host.indexOf(this.trafficSources[2]) > -1) { 
 				  		return new TripAdvisor();
-				  	}
+				  	} else if (this.host.indexOf(this.trafficSources[3]) > -1) {
+                        return new PriceLine();
+                    }
 				  }
 				}
 
