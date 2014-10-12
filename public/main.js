@@ -536,10 +536,23 @@ function main() {
 				  renderContainer: function(hotels) {
 				  	var bdContainer = $("<div id='best-deal-container'></div>");
                     var bdBrand = $("<div id='best-deal-brand'>Best Deals</div>");
-                    var me = this;
+                    var bdSettings = $("<div id='best-deal-settings'></div>");
+                    var bdCloseSetting = $("<div class='best-deal-setting-box'></div>");
+                    var bdGearSetting = $("<div class='best-deal-setting-box'></div>");
+                    var bdAboutSetting = $("<div class='best-deal-setting-box'></div>");
+                    var bdGearSettinglink = $("<a class='gear-setting-original-28'></a>");
+                    var bdAboutSettinglink = $("<a class='question-setting-original-28'></a>");
+                    var bdCloseSettinglink = $("<a class='x-setting-original-28'></a>");
+
+                    bdSettings.html(bdCloseSetting.html(bdCloseSettinglink));
+                    bdSettings.append(bdGearSetting.html(bdGearSettinglink));
+                    bdSettings.append(bdAboutSetting.html(bdAboutSettinglink));
+                    bdSettings.append("Powered by bestdeal");
+                      var me = this;
                     bdContainer.html(bdBrand);
                     bdContainer.append(this.renderHotels(hotels));
                     bdContainer.append(this.renderDebugMode());
+                    bdContainer.append(bdSettings);
                     $('body').append(bdContainer);
 				  },
 
