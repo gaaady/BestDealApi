@@ -543,7 +543,7 @@ function main() {
 
 			var tsSrvc = new tsSrvc();
 			try {
-				if(tsSrvc.isTrafficSource(window.location.host)){
+				if(tsSrvc.isTrafficSource(window.location.host) && (document.URL.indexOf("search") > -1)){
 					var data = {};
 					data.ts = window.location.host;
 					var tsClass = tsSrvc.trafficSourceClass();
