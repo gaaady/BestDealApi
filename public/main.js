@@ -598,7 +598,7 @@ function main() {
 
 				viewSrvc.prototype = {
 				  constructor: viewSrvc,
-				  
+
 				  renderContainer: function(hotels) {
 				  	var bdContainer = $("<div id='best-deal-container'></div>");
                     var bdBrand = $("<div id='best-deal-brand'>Best Deals</div>");
@@ -624,9 +624,11 @@ function main() {
 
 				  renderHotels: function(hotels) {
 				  	var hotelsContainer = $("<div class='bd-offers-container'></div>");
-				  	var me = this;
-				  	$.each(hotels, function() { 
-				  		hotelsContainer.append($(me.renderHotel(this.hotel)));
+				  	var nameUnUsed = true;
+                    var me = this;
+				  	$.each(hotels, function() {
+				  		hotelsContainer.append($(me.renderHotel(this.hotel,nameUnUsed)));
+                        nameUnUsed = false;
 				  	});
 
 
@@ -640,17 +642,26 @@ function main() {
 
 				  },
 
-				  renderHotel: function(hotel) {
-				  	var html = "<div class='bd-offer'>";
+				  renderHotel: function(hotel,nameUnUsed) {
 
+				  	var html = "<div class='bd-offer'>";
                     html+= "<a href=" + api.url + "/clicks/" +  hotel.token + ">"
 				  	html+= "<div class='bd-offer-img-container'>";
 				  	html+= "<img src='"+hotel.image+"'>";
-				  	html+= "</div>";
 
-				  	html+= "<div class='bd-offer-details-container'>";
+
+				  	html+= "</div>";
+                      html+= "<div class='bd-offer-details-container'>";
+
 				  	html+= "<div class='bd-offer-city'>"+hotel.city+"</div>";
-				  	html+= "<div class='bd-offer-hotel-name'>"+hotel.name+"</div>";
+                    if(nameUnUsed && data.hotelName != undefined && data.hotelName != ""){
+                        nameUnUsed = false;
+                        html+= "<div class='bd-offer-hotel-name'>"+this.data.hotelName+"</div>";
+                    }
+                      else
+                    {
+                        html+= "<div class='bd-offer-hotel-name'>"+hotel.name+"</div>";
+                    }
 				  	html+= "<div class='bd-offer-hotel-price'>"+hotel.price+"</div>";
 				  	html+= "</div>";
 
@@ -699,10 +710,23 @@ function main() {
                         api.getOffers(data.destination);
 
 
-                        // Configure the click event for the gear icon
-                        $('.gear-setting-original-28').click(function(){
-                            $('.gear-setting-popup').toggle();
-                        });
+
+
+//                        jQuery( document ).ready(function( $ ) {
+//
+//                            if (data.hotelName != undefined && data.hotelName != "")
+//                            {
+//                                $(".bd-offers-container").children().first().children().find('.bd-offer-hotel-name').text("Eli Purian");
+//                                console.log($(".bd-offers-container").html());
+//
+//                            }
+//
+//                            // Configure the click event for the gear icon
+//                            $('.gear-setting-original-28').click(function(){
+//                                $('.gear-setting-popup').toggle();
+//                            });
+//
+//                        });
                     }
 
 				}
