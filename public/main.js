@@ -46,6 +46,13 @@ function main() {
         Orbitz.prototype = {
             constructor: Orbitz,
 
+            getHotelName: function(){
+
+                var hotelName = $("#detailsHotelSummaryName").text().trim();
+
+                return hotelName;
+            },
+
             getDestination: function() {
 
                 var destination = jQuery("input[name='hotel.keyword.key']").val();
@@ -213,6 +220,14 @@ function main() {
 
 			TripAdvisor.prototype = {
 				constructor: TripAdvisor,
+
+                getHotelName: function(){
+
+                    var hotelName = $("#detailsHotelSummaryName").text().trim();
+
+                    return hotelName;
+                },
+
 				// Look for destination on trip advisor window variables
 				// If not available, try scraping the html
 				getDestination: function() {
@@ -299,7 +314,15 @@ function main() {
 
 			Booking.prototype = {
 				constructor: Booking,
-				getDestination: function() {
+
+                getHotelName: function(){
+
+                    var hotelName = $("#detailsHotelSummaryName").text().trim();
+
+                    return hotelName;
+                },
+
+                getDestination: function() {
 					return $('#destination').val();
 				},
 
@@ -395,6 +418,14 @@ function main() {
 
 			Hotels.prototype = {
 				constructor: Hotels,
+
+                getHotelName: function(){
+
+                    var hotelName = $("#detailsHotelSummaryName").text().trim();
+
+                    return hotelName;
+                },
+
 				getDestination: function() {
 					try {
 						if($('#destination').length > 0){
