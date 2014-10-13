@@ -421,7 +421,7 @@ function main() {
 
                 getHotelName: function(){
 
-                    var hotelName = $("#detailsHotelSummaryName").text().trim();
+                    var hotelName = $("h1.fn.org").text().trim();
 
                     return hotelName;
                 },
