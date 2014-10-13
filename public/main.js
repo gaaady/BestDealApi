@@ -223,7 +223,7 @@ function main() {
 
                 getHotelName: function(){
 
-                    var hotelName = $("#detailsHotelSummaryName").text().trim();
+                    var hotelName = jQuery("h1[rel='v:name']").text().trim();
 
                     return hotelName;
                 },
