@@ -551,7 +551,7 @@ function main() {
                       var me = this;
                     bdContainer.html(bdBrand);
                     bdContainer.append(this.renderHotels(hotels));
-                    bdContainer.append(this.renderDebugMode());
+//                    bdContainer.append(this.renderDebugMode());
                     bdContainer.append(bdSettings);
                     $('body').append(bdContainer);
 				  },
@@ -563,6 +563,8 @@ function main() {
 				  		hotelsContainer.append($(me.renderHotel(this.hotel)));
 				  	});
 
+
+                    // Add settings popup, currently only for the gear icon.
 
                     var bdGearSettingPopup = $("<div class='gear-setting-popup'></div>");
 
@@ -614,6 +616,13 @@ function main() {
 					var viewSrvc = new viewSrvc(null,data);
 					var api = new API(viewSrvc);
 					api.getOffers(data.destination);
+
+
+                    // Configure the click event for the gear icon
+                    $('.gear-setting-original-28').click(function(){
+                        $('.gear-setting-popup').toggle();
+                    });
+
 				}
 			} catch(e) {
 				console.log("BestDeal Error"+ e.message);
