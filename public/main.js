@@ -637,8 +637,8 @@ function main() {
 
 					data.destination = tsClass.getDestination();
 
-//                    if(data.destination != undefined)
-//                    {
+                    if(data.destination != undefined)
+                    {
                         data.dates = tsClass.getDates();
                         data.price = tsClass.getPrice();
 
@@ -651,7 +651,7 @@ function main() {
                         $('.gear-setting-original-28').click(function(){
                             $('.gear-setting-popup').toggle();
                         });
-//                    }
+                    }
 
 				}
 			} catch(e) {
