@@ -48,7 +48,7 @@ function main() {
 
             getHotelName: function(){
 
-                var hotelName = $("#detailsHotelSummaryName").text().trim();
+                var hotelName = jQuery("h1[data-context='hotelName']").text();
 
                 return hotelName;
             },
