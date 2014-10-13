@@ -12,5 +12,20 @@
 #
 
 class Hotel < ActiveRecord::Base
-  attr_accessible :city, :image, :name, :price
+
+  before_create :generate_token
+
+  attr_accessible :city, :image, :name, :price, :token
+
+  validates_uniqueness_of :token
+
+  protected
+
+  def generate_token
+    self.token = loop do
+      random_token = SecureRandom.urlsafe_base64(nil, false)
+      break random_token unless Hotel.exists?(token: random_token)
+    end
+  end
+
 end
