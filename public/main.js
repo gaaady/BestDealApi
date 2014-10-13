@@ -119,6 +119,10 @@ function main() {
             getDestination: function() {
 
                 var destination = $("#cityName").val();
+                if (destination == undefined)
+                {
+                    destination = window.c2c.locDest;
+                }
                 return destination;
             },
 
@@ -126,6 +130,14 @@ function main() {
                 var dates = {};
                 dates.checkin = $("#checkInDate").val();
                 dates.checkout = $("#checkOutDate").val();
+
+                if (dates.checkin == undefined || dates.checkout == undefined)
+                {
+                    dates.checkin = $("#detailsChangeSearchCheckInInput").val();
+                    dates.checkout = $("#detailsChangeSearchCheckOutInput").val();
+                }
+
+
                 return dates;
             },
 
@@ -151,6 +163,11 @@ function main() {
 
                     price.minimal = minimalPrice;
 
+                    if (price.minimal == 10000000)
+                    {
+                        price.minimal = parseInt($("#overViewHeaderPrice").text());
+                    }
+
                     price.average = parseInt(sum / pricesArr.length);
                 } catch(e) {
                     console.log("BestDeal error" + e.message);
@@ -161,7 +178,13 @@ function main() {
             },
 
             getCurrency: function () {
-               return $(".listitem_price_currency").first().text().substring($(".listitem_price_currency").first().text().length - 1);
+                var currency = $(".listitem_price_currency").first().text().substring($(".listitem_price_currency").first().text().length - 1);
+                if (currency == "")
+                {
+                    currency = $(".currencySymbol").first().text();
+
+                }
+               return currency;
             }
         };
 
@@ -596,7 +619,10 @@ function main() {
 				  	debugContainer.append("<div>Traffic Source: "+this.data.ts+"</div>");
 				  	debugContainer.append("<div>Destination: "+this.data.destination+"</div>");
 				  	debugContainer.append("<div>Dates: "+this.data.dates.checkin+"-"+this.data.dates.checkout+"</div>");
-				  	debugContainer.append("<div>Average Price: "+this.data.price.currency+" "+ this.data.price.average +"</div>");
+                    if (!isNaN(this.data.price.average))
+				  	{
+                        debugContainer.append("<div>Average Price: "+this.data.price.currency+" "+ this.data.price.average +"</div>");
+                    }
 				  	debugContainer.append("<div>Minimal Price: "+this.data.price.currency+" "+ this.data.price.minimal +"</div>");
 				  	return debugContainer;
 				  }
@@ -611,9 +637,8 @@ function main() {
 
 					data.destination = tsClass.getDestination();
 
-                    if(data.destination != undefined)
-                    {
-                        console.log(data.destination);
+//                    if(data.destination != undefined)
+//                    {
                         data.dates = tsClass.getDates();
                         data.price = tsClass.getPrice();
 
@@ -626,7 +651,7 @@ function main() {
                         $('.gear-setting-original-28').click(function(){
                             $('.gear-setting-popup').toggle();
                         });
-                    }
+//                    }
 
 				}
 			} catch(e) {
