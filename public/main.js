@@ -643,6 +643,7 @@ function main() {
 				  renderHotel: function(hotel) {
 				  	var html = "<div class='bd-offer'>";
 
+                    html+= "<a href=" + api.url + "/clicks/" +  hotel.token + ">"
 				  	html+= "<div class='bd-offer-img-container'>";
 				  	html+= "<img src='"+hotel.image+"'>";
 				  	html+= "</div>";
@@ -653,6 +654,7 @@ function main() {
 				  	html+= "<div class='bd-offer-hotel-price'>"+hotel.price+"</div>";
 				  	html+= "</div>";
 
+				  	html+="</a>";
 				  	html+="</div>";
 				  	return html;
 				  },
