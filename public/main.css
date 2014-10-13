@@ -53,7 +53,19 @@
     float: left;
     line-height: 3.5;
     text-align: center;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
 }
+
+.best-deal-setting-box:hover {
+    -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    cursor: pointer;
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
 
 .gear-setting-original-28, .question-setting-original-28, .x-setting-original-28
 { display: inline-block; background: url('settings-sprite.png') no-repeat; overflow: hidden; text-indent: -9999px; text-align: left; }
