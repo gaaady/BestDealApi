@@ -317,7 +317,7 @@ function main() {
 
                 getHotelName: function(){
 
-                    var hotelName = $("#detailsHotelSummaryName").text().trim();
+                    var hotelName = $("#hp_hotel_name").text();
 
                     return hotelName;
                 },
