@@ -75,6 +75,21 @@
 .x-setting-original-28 { background-position: -0px -52px; width: 28px; height: 26px; }
 
 
+.gear-setting-popup{
+    left: 0;
+    width: 250px;
+    overflow: visible;
+    position: absolute;
+    height: 300px;
+    bottom: 0;
+    background: white;
+    -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+
+
 .bd-offers-container {
     width: 100%;
 	text-align: center;

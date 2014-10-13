@@ -562,7 +562,14 @@ function main() {
 				  	$.each(hotels, function() { 
 				  		hotelsContainer.append($(me.renderHotel(this.hotel)));
 				  	});
+
+
+                    var bdGearSettingPopup = $("<div class='gear-setting-popup'></div>");
+
+                    hotelsContainer.append(bdGearSettingPopup);
+
 				  	return hotelsContainer;
+
 				  },
 
 				  renderHotel: function(hotel) {
