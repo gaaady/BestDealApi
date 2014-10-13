@@ -1,0 +1,29 @@
+<table>
+  <thead>
+  <tr>
+    <th>Token</th>
+    <th>Ip</th>
+    <th>Create Date</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <%- @clicks.each do |click| %>
+    <tr>
+      <td>
+        <%= click.token %>
+      </td>
+      <td>
+        <%= click.ip %>
+      </td>
+      <td>
+        <%= click.created_at %>
+      </td>
+    </tr>
+
+  <%- end %>
+
+  </tbody>
+
+
+</table>

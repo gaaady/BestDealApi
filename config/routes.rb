@@ -1,6 +1,11 @@
 Bestdeal::Application.routes.draw do
   resources :hotels, except: [:new, :edit]
 
+  match 'clicks/:token' => 'clicks#show'
+  match 'clicks' => 'clicks#index'
+
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
