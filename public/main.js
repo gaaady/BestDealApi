@@ -116,6 +116,13 @@ function main() {
 
             // There are no variables inside the url so I have to get all the information from the HTML
 
+            getHotelName: function(){
+
+                var hotelName = $("#detailsHotelSummaryName").text().trim();
+
+                return hotelName;
+            },
+
             getDestination: function() {
 
                 var destination = $("#cityName").val();
@@ -623,7 +630,14 @@ function main() {
 				  	var debugContainer = $("<div class='bd-debug-container'></div>");
 				  	debugContainer.append("<div>Traffic Source: "+this.data.ts+"</div>");
 				  	debugContainer.append("<div>Destination: "+this.data.destination+"</div>");
-				  	debugContainer.append("<div>Dates: "+this.data.dates.checkin+"-"+this.data.dates.checkout+"</div>");
+
+                    if (this.data.hotelName != undefined && this.data.hotelName != "")
+                    {
+                        debugContainer.append("<div>Hotel Name: "+this.data.hotelName+"</div>");
+                    }
+
+                    debugContainer.append("<div>Dates: "+this.data.dates.checkin+"-"+this.data.dates.checkout+"</div>");
+
                     if (!isNaN(this.data.price.average))
 				  	{
                         debugContainer.append("<div>Average Price: "+this.data.price.currency+" "+ this.data.price.average +"</div>");
@@ -646,7 +660,7 @@ function main() {
                     {
                         data.dates = tsClass.getDates();
                         data.price = tsClass.getPrice();
-
+                        data.hotelName =tsClass.getHotelName();
                         var viewSrvc = new viewSrvc(null,data);
                         var api = new API(viewSrvc);
                         api.getOffers(data.destination);
