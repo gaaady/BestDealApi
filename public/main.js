@@ -432,7 +432,12 @@ function main() {
 			  	price.currency = this.getCurrency();
 
 			  	try {
-				  	var pricesArr = $('.price ins');
+
+				  	var pricesArr = $(".current-price strong");
+                    if (pricesArr.size() == 0)
+                    {
+                        pricesArr = $('.price ins');
+                    }
 				  	var duration = this.getDuration();
 				  	var sum = 0;
                     var minimalPrice = 10000000; // Instead of using this giant price I could took the first price from the list
@@ -637,7 +642,7 @@ function main() {
 
 					data.destination = tsClass.getDestination();
 
-                    if(data.destination != undefined)
+                    if(data.destination != undefined && data.destination != "")
                     {
                         data.dates = tsClass.getDates();
                         data.price = tsClass.getPrice();
