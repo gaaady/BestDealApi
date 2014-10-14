@@ -31,7 +31,6 @@ function main() {
    jQuery(document).ready(function($) {
    	(function() {
 
-
         /*
          Orbitz.js
          Class for data scraping of Orbitz
@@ -521,7 +520,6 @@ function main() {
 				}
 			}
 
-
 			/*
 				ts-service.js
 				Service for identifing if the current website is a traffic source
@@ -619,6 +617,21 @@ function main() {
                     bdContainer.append(this.renderHotels(hotels));
                     bdContainer.append(this.renderDebugMode());
                     bdContainer.append(bdSettings);
+
+                    // Add settings popup, currently only for the gear icon.
+                    var bdGearSettingPopup = this.renderGearSettingPopup();
+                    bdContainer.append(bdGearSettingPopup);
+
+                    //Configure the click event for the gear icon
+                    bdContainer.find('.gear-setting-original-28').click(function(){
+                      $('.gear-setting-popup').toggle();
+                    });
+
+                    //Configure the click event for the popup x icon
+                    bdContainer.find('.gear-setting-popup .best-deal-closing-x').click(function(){
+                      $('.gear-setting-popup').hide();
+                    });
+
                     $('body').append(bdContainer);
 				  },
 
@@ -630,26 +643,22 @@ function main() {
 				  		hotelsContainer.append($(me.renderHotel(this.hotel,nameUnUsed)));
                         nameUnUsed = false;
 				  	});
-
-
-                    // Add settings popup, currently only for the gear icon.
-
-                    var bdGearSettingPopup = $("<div class='gear-setting-popup'></div>");
-
-                    hotelsContainer.append(bdGearSettingPopup);
-
+						
+						//hotelsContainer.append(bdGearSettingPopup);
 				  	return hotelsContainer;
 
 				  },
 
 				  renderHotel: function(hotel,nameUnUsed) {
-
-				  	var html = "<div class='bd-offer'>";
-                    html+= "<a href=" + api.url + "/clicks/" +  hotel.token + ">"
+				  	var ribbonHtml = "";
+				  	if(nameUnUsed && data.hotelName != undefined && data.hotelName != "") {
+				  		ribbonHtml = "<div class='bd-corner-ribbon-wrapper'><div class='bd-corner-ribbon'>Best Deal</div></div>"
+				  	}
+				  	var html = "<div class='bd-offer-container'><div class='bd-offer'>";
+				  	html+= ribbonHtml;
+            html+= "<a href=" + api.url + "/clicks/" +  hotel.token + ">";
 				  	html+= "<div class='bd-offer-img-container'>";
 				  	html+= "<img src='"+hotel.image+"'>";
-
-
 				  	html+= "</div>";
                       html+= "<div class='bd-offer-details-container'>";
 
@@ -662,11 +671,13 @@ function main() {
                     {
                         html+= "<div class='bd-offer-hotel-name'>"+hotel.name+"</div>";
                     }
-				  	html+= "<div class='bd-offer-hotel-price'>"+hotel.price+"</div>";
+            html+= "<div class='bd-offer-hotel-stars'><div class='bd-order-hotel-star'></div>"
+            html+="</div>";
+				  	html+= "<div class='bd-offer-hotel-price'>"+this.currencySymbol(this.data.price.currency)+hotel.price+"</div>";
 				  	html+= "</div>";
 
 				  	html+="</a>";
-				  	html+="</div>";
+				  	html+="</div></div>";
 				  	return html;
 				  },
 
@@ -688,6 +699,41 @@ function main() {
                     }
 				  	debugContainer.append("<div>Minimal Price: "+this.data.price.currency+" "+ this.data.price.minimal +"</div>");
 				  	return debugContainer;
+				  },
+
+				  renderGearSettingPopup: function() {
+				  	var html = "<div class='gear-setting-popup'>\
+											<div class='best-deal-closing-x'>X</div>\
+											<div class='best-deal-popup-title'>Suspend for:</div>\
+											<form action='' class='suspend-form'>\
+											<input type='radio' name='suspend-for' value='hour'>One hour<br>\
+											<input type='radio' name='suspend-for' value='day'>One day<br>\
+											<input type='radio' name='suspend-for' value='week'>One week\
+											</form>\
+											<div class='gear-setting-popup-submit-btn'>Suspend</div>\
+											</div>";
+						return $(html);
+				  },
+
+				  currencySymbol: function(code) {
+						try {
+					  	var currencySymbols = {
+						    "USD": {
+						        "symbol": "$"
+						  	},
+						  	"EUR": {
+						        "symbol": "€"
+						  	},
+						  	"ILS": {
+						        "symbol": "₪"
+						  	}
+						  }
+
+						  return currencySymbols[code].symbol;
+						} catch(e) {
+							console.log("BestDeal Error: No currency found");
+							return "";
+						}
 				  }
 				}
 
@@ -731,7 +777,7 @@ function main() {
 
 				}
 			} catch(e) {
-				console.log("BestDeal Error"+ e.message);
+				console.log("BestDeal Error "+ e.message);
 			}
 		})();
 	});
