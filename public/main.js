@@ -529,6 +529,7 @@ function main() {
 
 				function tsSrvc() {
 					this.trafficSources = ["booking.com","hotels.com","tripadvisor.com", "priceline.com", "orbitz.com"],
+                    this.trafficSourcesUseAjax = ["hotels.com", "priceline.com"],
 					this.host = null
 				}
 
@@ -542,6 +543,14 @@ function main() {
 							return false;
 						}
 				  },
+                  isTrafficSourcesUseAjax: function (host) {
+                    if(new RegExp( '\\b' + this.trafficSourcesUseAjax.join('\\b|\\b') + '\\b',"i").test(host)) {
+                        this.host = host;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                    },
 
 				  trafficSourceClass: function () {
 				  	if(this.host.indexOf(this.trafficSources[0]) > -1) {
@@ -733,7 +742,7 @@ function main() {
 						  	}
 						  }
 
-						  return currencySymbols[code].symbol;
+                          return currencySymbols[code].symbol;
 						} catch(e) {
 							console.log("BestDeal Error: No currency found");
 							return "";
@@ -759,24 +768,74 @@ function main() {
                         var api = new API(viewSrvc);
                         api.getOffers(data.destination);
 
+                        if(tsSrvc.isTrafficSourcesUseAjax(window.location.host)){
 
+                            // This method is working perfectly for priceLine and for Hotels
+                            jQuery( document ).ajaxComplete(function( event,request, settings ) {
 
+                                data.dates = tsClass.getDates();
+                                data.price = tsClass.getPrice();
+                                data.hotelName =tsClass.getHotelName();
+                                api.getOffers(data.destination);
+                            });
+                        }
+                        else if (window.location.host == "www.orbitz.com")
+                        {
 
-//                        jQuery( document ).ready(function( $ ) {
-//
-//                            if (data.hotelName != undefined && data.hotelName != "")
-//                            {
-//                                $(".bd-offers-container").children().first().children().find('.bd-offer-hotel-name').text("Eli Purian");
-//                                console.log($(".bd-offers-container").html());
-//
-//                            }
-//
-//                            // Configure the click event for the gear icon
-//                            $('.gear-setting-original-28').click(function(){
-//                                $('.gear-setting-popup').toggle();
-//                            });
-//
-//                        });
+                            // This is not the best way but at least for now it's not pulling
+                            $('form').click(function(e) {
+                                setTimeout(function(){
+                                    data.dates = tsClass.getDates();
+                                    data.price = tsClass.getPrice();
+                                    data.hotelName =tsClass.getHotelName();
+                                    api.getOffers(data.destination);
+                                },4000);
+                            });
+
+                        }
+                        else if(window.location.host == "www.tripadvisor.com")
+                        {
+
+                            (function() {
+                                var classes = [Request, Request.HTML, Request.JSON],
+                                    // map to a text name
+                                    mapper = ["Request", "Request.HTML", "Request.JSON"],
+                                    // store reference to original methods
+                                    orig = {
+                                        onSuccess: Request.prototype.onSuccess
+                                    },
+                                    // changes to prototypes to implement
+                                    changes = {
+                                        onSuccess: function(){
+                                            Request.Spy && typeof Request.Spy == "function" && Request.Spy.apply(this, arguments);
+                                            orig.onSuccess.apply(this, arguments);
+                                        }
+                                    };
+
+                                classes.invoke('implement', changes);
+
+                                // allow us to tell which Class prototype has called the ajax
+                                Request.implement({
+                                    getClass: function() {
+                                        var ret;
+                                        Array.each(classes, function(klass, index) {
+                                            if (instanceOf(this, klass)) {
+                                                ret = mapper[index];
+                                            }
+                                        }, this);
+                                        return ret;
+                                    }
+                                });
+                            })();
+
+                            // to enable spying, just define Request.Spy as a function:
+                            Request.Spy = function() {
+                                data.dates = tsClass.getDates();
+                                data.price = tsClass.getPrice();
+                                data.hotelName =tsClass.getHotelName();
+                                api.getOffers(data.destination);
+                            };
+                        }
                     }
 
 				}
