@@ -170,7 +170,7 @@
 .bd-debug-container {
 	/*display: inline-block;*/
     position: absolute;
-    top: -110px;
+    top: -150px;
     right: 0;
     background: white;
 	border: 1px solid black;
