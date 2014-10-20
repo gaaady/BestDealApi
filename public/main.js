@@ -49,15 +49,21 @@ function main() {
                 // For single hotel page
                 var stars = NaN;
                 var starsArr = jQuery(".stars");
+                var sumStars = 0;
 
 
 
                 if (starsArr.length == 1)
                 {
-                    stars = parseFloat(jQuery(".stars").attr('alt').replace(/[^0-9\.]+/g,""))
+                    stars = parseFloat(jQuery(".stars").attr('alt').replace(/[^0-9\.]+/g,""));
                 }
                 else
                 {
+                    $.each(starsArr,function () {
+                        sumStars +=  parseFloat($(this).attr('alt').replace(/[^0-9\.]+/g,""));
+                    });
+
+                    stars = sumStars / starsArr.length;
 
                 }
             },
@@ -812,6 +818,7 @@ function main() {
                         data.dates = tsClass.getDates();
                         data.price = tsClass.getPrice();
                         data.hotelName =tsClass.getHotelName();
+                        parseInt(tsClass.getRating());
                         var viewSrvc = new viewSrvc(null,data);
                         var api = new API(viewSrvc);
                         api.getOffers(data.destination);
