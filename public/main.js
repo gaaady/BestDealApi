@@ -159,7 +159,7 @@ function main() {
 
                 if (starsArr.length == 0)
                 {
-//                    stars = parseFloat($(".stars").attr('alt').replace(/[^0-9\.]+/g,""));
+                    stars = $("#detailsHotelSummaryName .icon-star-full").length;
                 }
                 else
                 {
