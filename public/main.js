@@ -75,7 +75,7 @@ function main() {
                     var minimalPrice = 10000000; // Instead of using this giant price I could took the first price from the list
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
-                        var price = parseInt(pString.replace(/\D/g,'')); // remove non number chars from price string
+                        var price = parseInt(pString.replace(/[^0-9\.]+/g,"")); // remove non number chars from price string
 
                         sum +=  price;
                         if (minimalPrice > price)
@@ -166,7 +166,7 @@ function main() {
 
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
-                        var price = parseInt(pString.replace(/\D/g,'')); // remove non number chars from price string
+                        var price = parseInt(pString.replace(/[^0-9\.]+/g,"")); // remove non number chars from price string
                         sum +=  price;
                         if (minimalPrice > price)
                         {
@@ -279,7 +279,7 @@ function main() {
                     var minimalPrice = 10000000; // Instead of using this giant price I could took the first price from the list
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
-                        var price = parseInt(pString.replace(/\D/g,'')); // remove non number chars from price string
+                        var price = parseInt(pString.replace(/[^0-9\.]+/g,"")); // remove non number chars from price string
                         sum +=  price;
                         if (minimalPrice > price)
                         {
@@ -359,7 +359,7 @@ function main() {
 
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
-                        var price = parseFloat(pString.replace(/\D/g,''));
+                        var price = parseFloat(pString.replace(/[^0-9\.]+/g,""));
                         sum +=  price;
                         if (minimalPrice > price)
                         {
@@ -481,7 +481,7 @@ function main() {
 
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
-                        var price = parseFloat(pString.replace(/\D/g,''));
+                        var price = parseFloat(pString.replace(/[^0-9\.]+/g,""));
 
                         sum +=  price;
                         if (minimalPrice > price)
@@ -494,8 +494,8 @@ function main() {
                         price.minimal = minimalPrice;
                         price.average = parseFloat(sum / pricesArr.length) / duration;
                     } else {
-                        price.average = parseFloat($('.feature-price .current-price').html().replace(/\D/g,'')) / duration;
-                        price.minimal = parseFloat($('.feature-price .current-price').html().replace(/\D/g,'')) / duration;  // Look to be the same because there is only one price
+                        price.average = parseFloat($('.feature-price .current-price').html().replace(/[^0-9\.]+/g,"")) / duration;
+                        price.minimal = parseFloat($('.feature-price .current-price').html().replace(/[^0-9\.]+/g,"")) / duration;  // Look to be the same because there is only one price
                     }
 			  	} catch(e) {
 			  		console.log("BestDeal error" + e.message);
