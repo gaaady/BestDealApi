@@ -46,7 +46,20 @@ function main() {
             constructor: Orbitz,
 
             getRating: function(){
+                // For single hotel page
+                var stars = NaN;
+                var starsArr = jQuery(".stars");
 
+
+
+                if (starsArr.length == 1)
+                {
+                    stars = parseFloat(jQuery(".stars").attr('alt').replace(/[^0-9\.]+/g,""))
+                }
+                else
+                {
+
+                }
             },
 
             getHotelName: function(){
