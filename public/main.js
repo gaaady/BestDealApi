@@ -334,7 +334,11 @@ function main() {
 
 			  	try {
 				  	var pricesArr = $('.priceBlock .price'); // get the divs containing the price
-				  	var sum = 0;
+				  	if (pricesArr.length == 0)
+                    {
+                        pricesArr = jQuery('.priceAndNights > .price');
+                    }
+                    var sum = 0;
                     var minimalPrice = 10000000; // Instead of using this giant price I could took the first price from the list
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
