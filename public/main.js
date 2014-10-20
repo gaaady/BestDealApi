@@ -409,7 +409,6 @@ function main() {
                 getRating: function(){
 
 
-                    // For single hotel page
                     var stars = NaN;
                     var starsArr =$(".property_title_badges");
                     var sumStars = 0;
@@ -549,7 +548,28 @@ function main() {
 				constructor: Hotels,
 
                 getRating: function(){
+                    // For single hotel page
+                    var stars = NaN;
+                    var starsArr = $('.star-rating>.widget-tooltip-bd');
+                    var sumStars = 0;
 
+
+
+                    if (starsArr.length == 0)
+                    {
+                        stars = parseFloat($(".sprites_star_rating").attr("title").replace(/[^0-9\.]+/g,""));
+                    }
+                    else
+                    {
+                        $.each(starsArr,function () {
+                            sumStars +=  parseFloat($(this).text().replace(/[^0-9\.]+/g,""));
+                        });
+
+                        stars = sumStars / starsArr.length;
+
+                    }
+
+                    return (stars);
                 },
 
                 getHotelName: function(){
