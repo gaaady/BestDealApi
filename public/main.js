@@ -45,6 +45,10 @@ function main() {
         Orbitz.prototype = {
             constructor: Orbitz,
 
+            getRating: function(){
+
+            },
+
             getHotelName: function(){
 
                 var hotelName = jQuery("h1[data-context='hotelName']").text();
@@ -121,6 +125,10 @@ function main() {
             constructor: PriceLine,
 
             // There are no variables inside the url so I have to get all the information from the HTML
+
+            getRating: function(){
+
+            },
 
             getHotelName: function(){
 
@@ -220,6 +228,10 @@ function main() {
 			TripAdvisor.prototype = {
 				constructor: TripAdvisor,
 
+                getRating: function(){
+
+                },
+
                 getHotelName: function(){
 
                     var hotelName = jQuery("h1[rel='v:name']").text().trim();
@@ -295,7 +307,7 @@ function main() {
 			  		price.average = null;
 			  	}
 
-			  	return price; 
+			  	return price;
 				},
 
 				getCurrency: function () {
@@ -313,6 +325,10 @@ function main() {
 
 			Booking.prototype = {
 				constructor: Booking,
+
+                getRating: function(){
+
+                },
 
                 getHotelName: function(){
 
@@ -423,6 +439,10 @@ function main() {
 
 			Hotels.prototype = {
 				constructor: Hotels,
+
+                getRating: function(){
+
+                },
 
                 getHotelName: function(){
 
