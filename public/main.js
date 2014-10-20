@@ -366,7 +366,7 @@ function main() {
                             minimalPrice = price;
                         }
                     });
-                    price.minimal = minimalPrice;
+                    price.minimal = minimalPrice / duration;
 				  	price.average = parseFloat(sum / pricesArr.length) / duration;
 			  	} catch(e) {
 			  		console.log("BestDeal error" + e.message);
@@ -397,7 +397,13 @@ function main() {
 					arr = $('.fromprice a.test2'); 
 					if(arr.length > 0) {
 						return arr;
-					} 
+					}
+
+                    arr = $(".b-recommended-room__price");
+                    if(arr.length > 0) {
+                        return arr;
+                    }
+
 					return [];
 				},
 
@@ -491,7 +497,7 @@ function main() {
                     });
 
                     if(pricesArr.length > 0) {
-                        price.minimal = minimalPrice;
+                        price.minimal = minimalPrice / duration;
                         price.average = parseFloat(sum / pricesArr.length) / duration;
                     } else {
                         price.average = parseFloat($('.feature-price .current-price').html().replace(/[^0-9\.]+/g,"")) / duration;
