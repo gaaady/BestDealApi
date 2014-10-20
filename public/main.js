@@ -299,9 +299,9 @@ function main() {
 				},
 
 				getCurrency: function () {
-					var currString = $('#CURRENCYPOP .link').html();
+					var currString = jQuery('#CURRENCYPOP .link').text().trim();
 					if(currString) {
-						return currString.substring(0,currString.indexOf("<"));
+						return currString;
 					} else {
 						return "";
 					}
@@ -745,7 +745,16 @@ function main() {
 						  	},
 						  	"ILS": {
 						        "symbol": "₪"
-						  	}
+						  	},
+                            "$": {
+                                "symbol": "$"
+                            },
+                            "€": {
+                                "symbol": "€"
+                            },
+                            "₪": {
+                                "symbol": "₪"
+                            }
 						  }
 
                           return currencySymbols[code].symbol;
