@@ -865,7 +865,10 @@ function main() {
                         debugContainer.append("<div>Average Price: "+this.data.price.currency+" "+ this.data.price.average +"</div>");
                     }
 				  	debugContainer.append("<div>Minimal Price: "+this.data.price.currency+" "+ this.data.price.minimal +"</div>");
-				  	return debugContainer;
+
+				   debugContainer.append('<div class="bd-order-hotel-star">&nbsp;&nbsp;&nbsp;&nbsp;'+this.data.stars+'</div>');
+
+                    return debugContainer;
 				  },
 
 				  renderGearSettingPopup: function() {
@@ -927,7 +930,7 @@ function main() {
                         data.dates = tsClass.getDates();
                         data.price = tsClass.getPrice();
                         data.hotelName =tsClass.getHotelName();
-//                        console.log(parseInt(tsClass.getRating()));
+                        data.stars = tsClass.getRating();
                         var viewSrvc = new viewSrvc(null,data);
                         var api = new API(viewSrvc);
                         api.getOffers(data.destination);
