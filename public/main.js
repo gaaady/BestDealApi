@@ -66,6 +66,8 @@ function main() {
                     stars = sumStars / starsArr.length;
 
                 }
+
+                return (stars);
             },
 
             getHotelName: function(){
