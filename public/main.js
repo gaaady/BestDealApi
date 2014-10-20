@@ -67,7 +67,7 @@ function main() {
 
                 }
 
-                return (stars);
+                return (parseInt(stars));
             },
 
             getHotelName: function(){
@@ -171,7 +171,7 @@ function main() {
 
                 }
 
-                return (stars);
+                return (parseInt(stars));
 
 
 
@@ -301,7 +301,7 @@ function main() {
 
                     }
 
-                    return (stars);
+                    return (parseInt(stars));
 
 
 
@@ -429,11 +429,7 @@ function main() {
 
                     }
 
-                    return (stars);
-
-
-
-
+                    return (parseInt(stars));
 
                 },
 
@@ -569,7 +565,7 @@ function main() {
 
                     }
 
-                    return (stars);
+                    return (parseInt(stars));
                 },
 
                 getHotelName: function(){
