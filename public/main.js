@@ -359,7 +359,7 @@ function main() {
 
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
-                        var price = parseInt(pString.replace(/\D/g,''));
+                        var price = parseFloat(pString.replace(/\D/g,''));
                         sum +=  price;
                         if (minimalPrice > price)
                         {
@@ -367,7 +367,7 @@ function main() {
                         }
                     });
                     price.minimal = minimalPrice;
-				  	price.average = parseInt(sum / pricesArr.length) / duration;
+				  	price.average = parseFloat(sum / pricesArr.length) / duration;
 			  	} catch(e) {
 			  		console.log("BestDeal error" + e.message);
 			  		price.average = null;
@@ -481,7 +481,7 @@ function main() {
 
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
-                        var price = parseInt(pString.replace(/\D/g,''));
+                        var price = parseFloat(pString.replace(/\D/g,''));
 
                         sum +=  price;
                         if (minimalPrice > price)
@@ -492,10 +492,10 @@ function main() {
 
                     if(pricesArr.length > 0) {
                         price.minimal = minimalPrice;
-                        price.average = parseInt(sum / pricesArr.length) / duration;
+                        price.average = parseFloat(sum / pricesArr.length) / duration;
                     } else {
-                        price.average = parseInt($('.feature-price .current-price').html().replace(/\D/g,'')) / duration;
-                        price.minimal = parseInt($('.feature-price .current-price').html().replace(/\D/g,'')) / duration;  // Look to be the same because there is only one price
+                        price.average = parseFloat($('.feature-price .current-price').html().replace(/\D/g,'')) / duration;
+                        price.minimal = parseFloat($('.feature-price .current-price').html().replace(/\D/g,'')) / duration;  // Look to be the same because there is only one price
                     }
 			  	} catch(e) {
 			  		console.log("BestDeal error" + e.message);
