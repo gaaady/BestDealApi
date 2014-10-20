@@ -147,6 +147,32 @@ function main() {
 
             getRating: function(){
 
+
+                // For single hotel page
+                var stars = NaN;
+                var starsArr =$(".listitem_ratings_group");
+                var sumStars = 0;
+
+
+
+                if (starsArr.length == 0)
+                {
+//                    stars = parseFloat($(".stars").attr('alt').replace(/[^0-9\.]+/g,""));
+                }
+                else
+                {
+                    $.each(starsArr,function () {
+                        sumStars +=  parseFloat($(this).children().first().attr('class').replace(/[^0-9\.]+/g,""));
+                    });
+
+                    stars = sumStars / starsArr.length;
+
+                }
+
+                return (stars);
+
+
+
             },
 
             getHotelName: function(){
@@ -818,7 +844,7 @@ function main() {
                         data.dates = tsClass.getDates();
                         data.price = tsClass.getPrice();
                         data.hotelName =tsClass.getHotelName();
-                        parseInt(tsClass.getRating());
+//                        console.log(parseInt(tsClass.getRating()));
                         var viewSrvc = new viewSrvc(null,data);
                         var api = new API(viewSrvc);
                         api.getOffers(data.destination);
