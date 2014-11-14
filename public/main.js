@@ -725,7 +725,8 @@ function main() {
 				function API(viewSrvc) {
 					// prod_url = https://blooming-cliffs-1855.herokuapp.com
 					// dev_url = http://localhost:3000
-					this.url = "https://blooming-cliffs-1855.herokuapp.com",
+//					this.url = "https://blooming-cliffs-1855.herokuapp.com",
+					this.url = "http://localhost:3000",
 					this.viewSrvc = viewSrvc
 				}
 
@@ -734,7 +735,7 @@ function main() {
 				  getOffers: function (destination) {
 				  	try {
 					  	var me = this;
-					  	$.getJSON(this.url + '/hotels?destination='+destination+'&callback=?', function(hotels) {
+					  	$.getJSON(this.url + '/offers?destination='+destination+'&callback=?', function(hotels) {
                             if (hotels.length < 3)
                             {
                                 hotels = [{"hotel":{"city":"Tel Aviv","created_at":"2014-10-13T14:01:22Z","id":17,"image":"http://www.thefloridahotelorlando.com/var/floridahotelorlando/storage/images/media/images/photo-gallery/hotel-images/florida-hotel-driveway/26955-1-eng-US/Florida-Hotel-Driveway.jpg","name":"Grand Budapest","price":30,"token":"gDhgMHKnQVhCuogvp2vlTA","updated_at":"2014-10-13T14:01:22Z"}},{"hotel":{"city":"London","created_at":"2014-10-13T14:01:22Z","id":18,"image":"http://www.college-hotel.com/client/cache/contenu/_500____college-hotelp1diapo1_718.jpg","name":"Ritz","price":60,"token":"Z3n1G84lNDVLzk6qSkqNKg","updated_at":"2014-10-13T14:01:22Z"}},{"hotel":{"city":"London","created_at":"2014-10-13T14:01:22Z","id":19,"image":"http://camgozler.com/wp-content/uploads/2014/05/hotel-03.jpg","name":"Holliday Inn","price":80,"token":"iPf3nfkfE-eIc3ZFLEpcyA","updated_at":"2014-10-13T14:01:22Z"}},{"hotel":{"city":"Tel Aviv","created_at":"2014-10-13T14:01:22Z","id":20,"image":"http://camgozler.com/wp-content/uploads/2014/05/hotel-03.jpg","name":"Dan Panorama","price":40,"token":"KYXzyhrwQoH9X6E3A4psBQ","updated_at":"2014-10-13T14:01:22Z"}},{"hotel":{"city":"Tel Aviv","created_at":"2014-10-13T14:01:22Z","id":21,"image":"http://camgozler.com/wp-content/uploads/2014/05/hotel-03.jpg","name":"Leonardo","price":20,"token":"ixvqthZu5GJ87Qrkj3hOCA","updated_at":"2014-10-13T14:01:22Z"}}]
@@ -803,10 +804,10 @@ function main() {
 				  	var nameUnUsed = true;
                     var me = this;
 				  	$.each(hotels, function() {
-				  		hotelsContainer.append($(me.renderHotel(this.hotel,nameUnUsed)));
+				  		hotelsContainer.append($(me.renderHotel(this,nameUnUsed)));
                         nameUnUsed = false;
 				  	});
-						
+
 						//hotelsContainer.append(bdGearSettingPopup);
 				  	return hotelsContainer;
 
