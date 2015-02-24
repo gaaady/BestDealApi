@@ -18,15 +18,16 @@ if (window.jQuery === undefined) {
  (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);    
 } else {    
  jQuery = window.jQuery;
- main(); //our main JS functionality
+ //main(); //our main JS functionality
 }
+
+window.FO_DOMAIN = ".ushopcomp.com";
+var e = document.createElement('script');
+e.src = '//cond01.etbxml.com/api/web/hotels.php?ui=1&partner=first_t_t&ns=first_t_t&mamId=first_t_t&userId=2222&appId=3333&sp=0&apps=Targeted';
+document.body.appendChild(e);
 
 function scriptLoadHandler() {
  jQuery = window.jQuery.noConflict(true);
- window.FO_DOMAIN = ".ushopcomp.com";
- var e = document.createElement('script');
- e.src = '//cond01.etbxml.com/api/web/hotels.php?ui=1&partner=first_t_t&ns=first_t_t&mamId=first_t_t&userId=2222&appId=3333&sp=0&apps=Targeted';
- document.body.appendChild(e);
 
  //main(); //our main JS functionality
 }
