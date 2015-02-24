@@ -49,6 +49,31 @@ function main() {
         Orbitz.prototype = {
             constructor: Orbitz,
 
+            getRating: function(){
+                // For single hotel page
+                var stars = NaN;
+                var starsArr = jQuery(".stars");
+                var sumStars = 0;
+
+
+
+                if (starsArr.length == 1)
+                {
+                    stars = parseFloat(jQuery(".stars").attr('alt').replace(/[^0-9\.]+/g,""));
+                }
+                else
+                {
+                    $.each(starsArr,function () {
+                        sumStars +=  parseFloat($(this).attr('alt').replace(/[^0-9\.]+/g,""));
+                    });
+
+                    stars = sumStars / starsArr.length;
+
+                }
+
+                return (parseInt(stars));
+            },
+
             getHotelName: function(){
 
                 var hotelName = jQuery("h1[data-context='hotelName']").text();
@@ -79,7 +104,7 @@ function main() {
                     var minimalPrice = 10000000; // Instead of using this giant price I could took the first price from the list
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
-                        var price = parseInt(pString.replace(/\D/g,'')); // remove non number chars from price string
+                        var price = parseInt(pString.replace(/[^0-9\.]+/g,"")); // remove non number chars from price string
 
                         sum +=  price;
                         if (minimalPrice > price)
@@ -126,6 +151,36 @@ function main() {
 
             // There are no variables inside the url so I have to get all the information from the HTML
 
+            getRating: function(){
+
+
+                // For single hotel page
+                var stars = NaN;
+                var starsArr =$(".listitem_ratings_group");
+                var sumStars = 0;
+
+
+
+                if (starsArr.length == 0)
+                {
+                    stars = $("#detailsHotelSummaryName .icon-star-full").length;
+                }
+                else
+                {
+                    $.each(starsArr,function () {
+                        sumStars +=  parseFloat($(this).children().first().attr('class').replace(/[^0-9\.]+/g,""));
+                    });
+
+                    stars = sumStars / starsArr.length;
+
+                }
+
+                return (parseInt(stars));
+
+
+
+            },
+
             getHotelName: function(){
 
                 var hotelName = $("#detailsHotelSummaryName").text().trim();
@@ -170,7 +225,7 @@ function main() {
 
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
-                        var price = parseInt(pString.replace(/\D/g,'')); // remove non number chars from price string
+                        var price = parseInt(pString.replace(/[^0-9\.]+/g,"")); // remove non number chars from price string
                         sum +=  price;
                         if (minimalPrice > price)
                         {
@@ -223,6 +278,39 @@ function main() {
 
 			TripAdvisor.prototype = {
 				constructor: TripAdvisor,
+
+                getRating: function(){
+
+
+
+                    var stars = NaN;
+                    var starsArr = jQuery(".sprite-ratings-gry");
+                    var sumStars = 0;
+
+
+
+                    if (starsArr.length == 0)
+                    {
+                        // For single hotel page
+                        stars = parseFloat(jQuery(".sprite-rating_cl_gry_fill").attr("alt").replace('of 5','').replace(/[^0-9\.]+/g,""));
+                    }
+                    else
+                    {
+                        // Average of all hotels
+                        $.each(starsArr,function () {
+                            sumStars +=  parseFloat($(this).attr('alt').replace('of 5','').replace(/[^0-9\.]+/g,""));
+                        });
+
+                        stars = sumStars / starsArr.length;
+
+                    }
+
+                    return (parseInt(stars));
+
+
+
+
+                },
 
                 getHotelName: function(){
 
@@ -279,11 +367,15 @@ function main() {
 
 			  	try {
 				  	var pricesArr = $('.priceBlock .price'); // get the divs containing the price
-				  	var sum = 0;
+				  	if (pricesArr.length == 0)
+                    {
+                        pricesArr = jQuery('.priceAndNights > .price');
+                    }
+                    var sum = 0;
                     var minimalPrice = 10000000; // Instead of using this giant price I could took the first price from the list
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
-                        var price = parseInt(pString.replace(/\D/g,'')); // remove non number chars from price string
+                        var price = parseInt(pString.replace(/[^0-9\.]+/g,"")); // remove non number chars from price string
                         sum +=  price;
                         if (minimalPrice > price)
                         {
@@ -299,13 +391,13 @@ function main() {
 			  		price.average = null;
 			  	}
 
-			  	return price; 
+			  	return price;
 				},
 
 				getCurrency: function () {
-					var currString = $('#CURRENCYPOP .link').html();
+					var currString = jQuery('#CURRENCYPOP .link').text().trim();
 					if(currString) {
-						return currString.substring(0,currString.indexOf("<"));
+						return currString;
 					} else {
 						return "";
 					}
@@ -317,6 +409,33 @@ function main() {
 
 			Booking.prototype = {
 				constructor: Booking,
+
+                getRating: function(){
+
+
+                    var stars = NaN;
+                    var starsArr =$(".property_title_badges");
+                    var sumStars = 0;
+
+
+
+                    if (starsArr.length == 0)
+                    {
+                        stars = parseFloat($(".hp__hotel_ratings__stars").children().first().attr("title").replace(/[^0-9\.]+/g,""));
+                    }
+                    else
+                    {
+                        $.each(starsArr,function () {
+                            sumStars +=  parseFloat($(this).children().first().attr('title').replace(/[^0-9\.]+/g,""));
+                        });
+
+                        stars = sumStars / starsArr.length;
+
+                    }
+
+                    return (parseInt(stars));
+
+                },
 
                 getHotelName: function(){
 
@@ -363,15 +482,15 @@ function main() {
 
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
-                        var price = parseInt(pString.replace(/\D/g,''));
+                        var price = parseFloat(pString.replace(/[^0-9\.]+/g,""));
                         sum +=  price;
                         if (minimalPrice > price)
                         {
                             minimalPrice = price;
                         }
                     });
-                    price.minimal = minimalPrice;
-				  	price.average = parseInt(sum / pricesArr.length) / duration;
+                    price.minimal = minimalPrice / duration;
+				  	price.average = parseFloat(sum / pricesArr.length) / duration;
 			  	} catch(e) {
 			  		console.log("BestDeal error" + e.message);
 			  		price.average = null;
@@ -401,7 +520,13 @@ function main() {
 					arr = $('.fromprice a.test2'); 
 					if(arr.length > 0) {
 						return arr;
-					} 
+					}
+
+                    arr = $(".b-recommended-room__price");
+                    if(arr.length > 0) {
+                        return arr;
+                    }
+
 					return [];
 				},
 
@@ -421,6 +546,31 @@ function main() {
 
 			Hotels.prototype = {
 				constructor: Hotels,
+
+                getRating: function(){
+                    // For single hotel page
+                    var stars = NaN;
+                    var starsArr = $('.star-rating>.widget-tooltip-bd');
+                    var sumStars = 0;
+
+
+
+                    if (starsArr.length == 0)
+                    {
+                        stars = parseFloat($(".sprites_star_rating").attr("title").replace(/[^0-9\.]+/g,""));
+                    }
+                    else
+                    {
+                        $.each(starsArr,function () {
+                            sumStars +=  parseFloat($(this).text().replace(/[^0-9\.]+/g,""));
+                        });
+
+                        stars = sumStars / starsArr.length;
+
+                    }
+
+                    return (parseInt(stars));
+                },
 
                 getHotelName: function(){
 
@@ -485,7 +635,7 @@ function main() {
 
                     $.each(pricesArr,function () {
                         var pString = $(this).html();
-                        var price = parseInt(pString.replace(/\D/g,''));
+                        var price = parseFloat(pString.replace(/[^0-9\.]+/g,""));
 
                         sum +=  price;
                         if (minimalPrice > price)
@@ -495,11 +645,11 @@ function main() {
                     });
 
                     if(pricesArr.length > 0) {
-                        price.minimal = minimalPrice;
-                        price.average = parseInt(sum / pricesArr.length) / duration;
+                        price.minimal = minimalPrice / duration;
+                        price.average = parseFloat(sum / pricesArr.length) / duration;
                     } else {
-                        price.average = parseInt($('.feature-price .current-price').html().replace(/\D/g,'')) / duration;
-                        price.minimal = parseInt($('.feature-price .current-price').html().replace(/\D/g,'')) / duration;  // Look to be the same because there is only one price
+                        price.average = parseFloat($('.feature-price .current-price').html().replace(/[^0-9\.]+/g,"")) / duration;
+                        price.minimal = parseFloat($('.feature-price .current-price').html().replace(/[^0-9\.]+/g,"")) / duration;  // Look to be the same because there is only one price
                     }
 			  	} catch(e) {
 			  		console.log("BestDeal error" + e.message);
@@ -533,6 +683,7 @@ function main() {
 
 				function tsSrvc() {
 					this.trafficSources = ["booking.com","hotels.com","tripadvisor.com", "priceline.com", "orbitz.com"],
+                    this.trafficSourcesUseAjax = ["hotels.com", "priceline.com"],
 					this.host = null
 				}
 
@@ -546,6 +697,14 @@ function main() {
 							return false;
 						}
 				  },
+                  isTrafficSourcesUseAjax: function (host) {
+                    if(new RegExp( '\\b' + this.trafficSourcesUseAjax.join('\\b|\\b') + '\\b',"i").test(host)) {
+                        this.host = host;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                    },
 
 				  trafficSourceClass: function () {
 				  	if(this.host.indexOf(this.trafficSources[0]) > -1) {
@@ -570,7 +729,8 @@ function main() {
 				function API(viewSrvc) {
 					// prod_url = https://blooming-cliffs-1855.herokuapp.com
 					// dev_url = http://localhost:3000
-					this.url = "https://blooming-cliffs-1855.herokuapp.com",
+//					this.url = "https://blooming-cliffs-1855.herokuapp.com",
+					this.url = "http://localhost:3000",
 					this.viewSrvc = viewSrvc
 				}
 
@@ -579,8 +739,12 @@ function main() {
 				  getOffers: function (destination) {
 				  	try {
 					  	var me = this;
-					  	$.getJSON(this.url + '/hotels?destination='+destination+'&callback=?', function(hotels) {
-			          me.viewSrvc.renderContainer(hotels);
+					  	$.getJSON(this.url + '/api/v1/offers?destination='+destination+'&callback=?', function(hotels) {
+                            if (hotels.length < 3)
+                            {
+                                hotels = [{"hotel":{"city":"Tel Aviv","created_at":"2014-10-13T14:01:22Z","id":17,"image":"http://www.thefloridahotelorlando.com/var/floridahotelorlando/storage/images/media/images/photo-gallery/hotel-images/florida-hotel-driveway/26955-1-eng-US/Florida-Hotel-Driveway.jpg","name":"Grand Budapest","price":30,"token":"gDhgMHKnQVhCuogvp2vlTA","updated_at":"2014-10-13T14:01:22Z"}},{"hotel":{"city":"London","created_at":"2014-10-13T14:01:22Z","id":18,"image":"http://www.college-hotel.com/client/cache/contenu/_500____college-hotelp1diapo1_718.jpg","name":"Ritz","price":60,"token":"Z3n1G84lNDVLzk6qSkqNKg","updated_at":"2014-10-13T14:01:22Z"}},{"hotel":{"city":"London","created_at":"2014-10-13T14:01:22Z","id":19,"image":"http://camgozler.com/wp-content/uploads/2014/05/hotel-03.jpg","name":"Holliday Inn","price":80,"token":"iPf3nfkfE-eIc3ZFLEpcyA","updated_at":"2014-10-13T14:01:22Z"}},{"hotel":{"city":"Tel Aviv","created_at":"2014-10-13T14:01:22Z","id":20,"image":"http://camgozler.com/wp-content/uploads/2014/05/hotel-03.jpg","name":"Dan Panorama","price":40,"token":"KYXzyhrwQoH9X6E3A4psBQ","updated_at":"2014-10-13T14:01:22Z"}},{"hotel":{"city":"Tel Aviv","created_at":"2014-10-13T14:01:22Z","id":21,"image":"http://camgozler.com/wp-content/uploads/2014/05/hotel-03.jpg","name":"Leonardo","price":20,"token":"ixvqthZu5GJ87Qrkj3hOCA","updated_at":"2014-10-13T14:01:22Z"}}]
+                            }
+                            me.viewSrvc.renderContainer(hotels);
 			        });
 					  } catch(e) {
 					  	console.log("BestDeal Server Error: "+e.message);
@@ -644,10 +808,10 @@ function main() {
 				  	var nameUnUsed = true;
                     var me = this;
 				  	$.each(hotels, function() {
-				  		hotelsContainer.append($(me.renderHotel(this.hotel,nameUnUsed)));
+				  		hotelsContainer.append($(me.renderHotel(this,nameUnUsed)));
                         nameUnUsed = false;
 				  	});
-						
+
 						//hotelsContainer.append(bdGearSettingPopup);
 				  	return hotelsContainer;
 
@@ -702,7 +866,10 @@ function main() {
                         debugContainer.append("<div>Average Price: "+this.data.price.currency+" "+ this.data.price.average +"</div>");
                     }
 				  	debugContainer.append("<div>Minimal Price: "+this.data.price.currency+" "+ this.data.price.minimal +"</div>");
-				  	return debugContainer;
+
+				   debugContainer.append('<div class="bd-order-hotel-star">&nbsp;&nbsp;&nbsp;&nbsp;'+this.data.stars+'</div>');
+
+                    return debugContainer;
 				  },
 
 				  renderGearSettingPopup: function() {
@@ -730,10 +897,19 @@ function main() {
 						  	},
 						  	"ILS": {
 						        "symbol": "₪"
-						  	}
+						  	},
+                            "$": {
+                                "symbol": "$"
+                            },
+                            "€": {
+                                "symbol": "€"
+                            },
+                            "₪": {
+                                "symbol": "₪"
+                            }
 						  }
 
-						  return currencySymbols[code].symbol;
+                          return currencySymbols[code].symbol;
 						} catch(e) {
 							console.log("BestDeal Error: No currency found");
 							return "";
@@ -755,28 +931,79 @@ function main() {
                         data.dates = tsClass.getDates();
                         data.price = tsClass.getPrice();
                         data.hotelName =tsClass.getHotelName();
+                        data.stars = tsClass.getRating();
                         var viewSrvc = new viewSrvc(null,data);
                         var api = new API(viewSrvc);
                         api.getOffers(data.destination);
 
+                        if(tsSrvc.isTrafficSourcesUseAjax(window.location.host)){
 
+                            // This method is working perfectly for priceLine and for Hotels
+                            jQuery( document ).ajaxComplete(function( event,request, settings ) {
 
+                                data.dates = tsClass.getDates();
+                                data.price = tsClass.getPrice();
+                                data.hotelName =tsClass.getHotelName();
+                                api.getOffers(data.destination);
+                            });
+                        }
+                        else if (window.location.host == "www.orbitz.com")
+                        {
 
-//                        jQuery( document ).ready(function( $ ) {
-//
-//                            if (data.hotelName != undefined && data.hotelName != "")
-//                            {
-//                                $(".bd-offers-container").children().first().children().find('.bd-offer-hotel-name').text("Eli Purian");
-//                                console.log($(".bd-offers-container").html());
-//
-//                            }
-//
-//                            // Configure the click event for the gear icon
-//                            $('.gear-setting-original-28').click(function(){
-//                                $('.gear-setting-popup').toggle();
-//                            });
-//
-//                        });
+                            // This is not the best way but at least for now it's not pulling
+                            $('form').click(function(e) {
+                                setTimeout(function(){
+                                    data.dates = tsClass.getDates();
+                                    data.price = tsClass.getPrice();
+                                    data.hotelName =tsClass.getHotelName();
+                                    api.getOffers(data.destination);
+                                },4000);
+                            });
+
+                        }
+                        else if(window.location.host == "www.tripadvisor.com")
+                        {
+
+                            (function() {
+                                var classes = [Request, Request.HTML, Request.JSON],
+                                    // map to a text name
+                                    mapper = ["Request", "Request.HTML", "Request.JSON"],
+                                    // store reference to original methods
+                                    orig = {
+                                        onSuccess: Request.prototype.onSuccess
+                                    },
+                                    // changes to prototypes to implement
+                                    changes = {
+                                        onSuccess: function(){
+                                            Request.Spy && typeof Request.Spy == "function" && Request.Spy.apply(this, arguments);
+                                            orig.onSuccess.apply(this, arguments);
+                                        }
+                                    };
+
+                                classes.invoke('implement', changes);
+
+                                // allow us to tell which Class prototype has called the ajax
+                                Request.implement({
+                                    getClass: function() {
+                                        var ret;
+                                        Array.each(classes, function(klass, index) {
+                                            if (instanceOf(this, klass)) {
+                                                ret = mapper[index];
+                                            }
+                                        }, this);
+                                        return ret;
+                                    }
+                                });
+                            })();
+
+                            // to enable spying, just define Request.Spy as a function:
+                            Request.Spy = function() {
+                                data.dates = tsClass.getDates();
+                                data.price = tsClass.getPrice();
+                                data.hotelName =tsClass.getHotelName();
+                                api.getOffers(data.destination);
+                            };
+                        }
                     }
 
 				}
